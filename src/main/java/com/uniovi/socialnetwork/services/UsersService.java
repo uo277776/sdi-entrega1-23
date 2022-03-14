@@ -41,14 +41,14 @@ public class UsersService {
 
     public void updateUser(User user){
         User originalUser = usersRepository.findById(user.getId()).get();
-        originalUser.setDni(user.getDni());
+        originalUser.setEmail(user.getEmail());
         originalUser.setName(user.getName());
         originalUser.setLastName(user.getLastName());
         usersRepository.save(originalUser);
     }
 
-    public User getUserByDni(String dni){
-        return usersRepository.findByDni(dni);
+    public User getUserByEmail(String email){
+        return usersRepository.findByEmail(email);
     }
 
     public void deleteUser(Long id){

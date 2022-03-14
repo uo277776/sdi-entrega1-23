@@ -44,7 +44,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/mark/edit/*").hasAuthority("ROLE_PROFESSOR")
                 .antMatchers("/mark/delete").hasAuthority("ROLE_PROFESSOR")
                 .antMatchers("/mark/**").hasAnyAuthority("ROLE_STUDENT", "ROLE_PROFESSOR", "ROLE_ADMIN")
-                .antMatchers("/user/**").hasAnyRole("ADMIN")
                 .antMatchers("/professor/add").hasRole("ADMIN")
                 .antMatchers("/professor/edit/*").hasRole("ADMIN")
                 .antMatchers("/professor/delete/*").hasRole("ADMIN")
