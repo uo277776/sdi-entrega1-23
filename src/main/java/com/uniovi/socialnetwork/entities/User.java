@@ -22,6 +22,11 @@ public class User {
 
     private String role;
 
+    @OneToMany(mappedBy = "owner")
+    private Set<Post> posts;
+
+
+
     public User(String email, String name, String lastName){
         super();
         this.email = email;
@@ -86,4 +91,12 @@ public class User {
     public String getRole(){return this.role;}
 
     public void setRole(String role){this.role = role;}
+
+    public Set<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
+    }
 }

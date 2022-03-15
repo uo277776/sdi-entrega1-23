@@ -26,7 +26,7 @@ public class UsersService {
 
     public List<User> getUsers(){
         List<User> users = new ArrayList<>();
-        usersRepository.findAll().forEach(users::add);
+        usersRepository.findUsers().forEach(users::add);
         return users;
     }
 

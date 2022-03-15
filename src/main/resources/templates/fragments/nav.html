@@ -12,14 +12,14 @@
                 <li class="nav-item ">
                     <a class="nav-link" href="/home">Home<span class="sr-only">(current)</span></a>
                 </li>
-                <li id= "users-menu" class="nav-item dropdown" >
+                <li id= "users-menu" class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false"> Gestión de usuarios </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/user/list">Ver usuarios</a>
                     </div>
                 </li>
-                <li id= "marks-menu" class="nav-item dropdown active">
+                <li id= "marks-menu" class="nav-item dropdown active" sec:authorize="hasRole('STANDARD')">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false"> Gestión de publicaciones </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -27,7 +27,7 @@
                         <a class="dropdown-item" href="/post/list">Ver publicaciones</a>
                     </div>
                 </li>
-                <li id= "professor-menu" class="nav-item dropdown">
+                <li id= "professor-menu" class="nav-item dropdown" sec:authorize="hasRole('STANDARD')">
                     <a class="nav-link dropdown-toggle" href="#" id="profesorDropdown" role="button" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false"> Gestión de amigos
                     </a>
