@@ -6,29 +6,41 @@
 <!-- Barra de Navegación superior -->
 <nav th:replace="fragments/nav"/>
 <div class="container">
-    <h2>Usuarios</h2>
-    <p>Los usuarios que actualmente figuran en el sistema son los siguientes:</p>
-    <button type="button" id="updateButton" class="btn btn-default">Actualizar</button>
-    <div class="table-responsive" th:fragment="tableUsers", id="tableUsers">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">DNI</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellidos</th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="user : ${usersList}">
-                <td scope="row" th:text="${user.email}">Email del usuario</td>
-                <td scope="row" th:text="${user.name}">Nombre del usuario</td>
-                <td scope="row" th:text="${user.lastName}">Apellidos del usuario</td>
-                <td scope="row"><a  th:id="${'sendInvitation_' + user.id}" th:if="${!user.receivedInvitationFromUser(#authentication.getName())}" th:href="${'/invitation/send/' + user.id}">Agregar amigo</a></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    <h2 th:text="#{user.list.title}">Usuarios</h2>
+    <p th:text="#{user.list.description}">Los usuarios del sistema son:</p>
+    <button type="button" id="updateButton" class="btn btn-default" th:text="#{user.list.update}">Actualizar</button>
+    <form class="form-horizontal" method="post" action="/user/delete">
+        <div class="table-responsive" th:fragment="tableUsers", id="tableUsers">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col" th:text="#{user.list.email}">DNI</th>
+                    <th scope="col" th:text="#{user.list.name}">Nombre</th>
+                    <th scope="col" th:text="#{user.list.lastName}">Apellidos</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${usersList}" class="userRow">
+                    <td><input type="checkbox" th:id="${user.id}" name="user" th:value="${user.id}" sec:authorize="hasRole('ADMIN')"/></td>
+                    <td scope="row" th:text="${user.email}">71888888X</td>
+                    <td scope="row" th:text="${user.name}">Nombre del alumno</td>
+                    <td scope="row" th:text="${user.lastName}">Apellidos del alumno</td>
+                    <td scope="row"><a  th:id="${'sendInvitation_' + user.id}" th:if="${!user.receivedInvitationFromUser(#authentication.getName())}" th:href="${'/invitation/send/' + user.id}">Agregar amigo</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary" th:text="#{user.list.delete}" sec:authorize="hasRole('ADMIN')">Eliminar</button>
+            </div>
+        </div>
+    </form>
 </div>
 <footer th:replace="fragments/footer"/>
 </body>

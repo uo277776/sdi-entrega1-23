@@ -4,6 +4,7 @@ import com.uniovi.socialnetwork.pageobjects.PO_HomeView;
 import com.uniovi.socialnetwork.pageobjects.PO_LoginView;
 import com.uniovi.socialnetwork.pageobjects.PO_PrivateView;
 import com.uniovi.socialnetwork.pageobjects.PO_View;
+import com.uniovi.socialnetwork.util.SeleniumUtils;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -55,16 +56,32 @@ class SdiEntrega123ApplicationTests {
     }
 
     @Test
+    @Order(11)
+    void PR11(){
+        PO_LoginView.logIn(driver,"admin@email.com","admin");
+
+        //Entramos en la lista de usuarios
+        List<WebElement> elements = PO_View.checkElementBy(driver,"id","users-menu");
+        elements.get(0).click();
+        //Clickamos la opcion de ver usuarios
+        elements = PO_View.checkElementBy(driver,"class","dropdown-item");
+        elements.get(0).click();
+
+        List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
+        Assertions.assertEquals(6,list.size());
+    }
+
+    @Test
     @Order(1)
     void PR19(){
         //We log in as user01 and send an invitation to user02
-        PO_LoginView.logIn(driver, "user01@email.com", "user01", "user01@email.com");
+        PO_LoginView.logIn(driver, "user01@email.com", "user01");
         driver.navigate().to(URL + "/user/list");
         PO_PrivateView.clickById(driver, "sendInvitation_2");
         PO_LoginView.logOut(driver);
 
         //We log in as user02
-        PO_LoginView.logIn(driver, "user02@email.com", "user02", "user02@email.com");
+        PO_LoginView.logIn(driver, "user02@email.com", "user02");
         driver.navigate().to(URL + "/invitation/list");
 
         List<WebElement> element = driver.findElements(By.id("invitation_User01")); //We check if we have an invitation from User01.
@@ -75,7 +92,7 @@ class SdiEntrega123ApplicationTests {
     @Order(2)
     void PR20(){
         //We log in as user01 and send an invitation to user02
-        PO_LoginView.logIn(driver, "user01@email.com", "user01", "user01@email.com");
+        PO_LoginView.logIn(driver, "user01@email.com", "user01");
         driver.navigate().to(URL + "/user/list");
         PO_PrivateView.clickById(driver, "sendInvitation_2");
 
@@ -88,7 +105,7 @@ class SdiEntrega123ApplicationTests {
     @Order(3)
     void PR21(){
         //We log in as user01 go to the invitations list
-        PO_LoginView.logIn(driver, "user01@email.com", "user01", "user01@email.com");
+        PO_LoginView.logIn(driver, "user01@email.com", "user01");
         driver.navigate().to(URL + "/invitation/list");
 
         //We check that there are 3 invitations
