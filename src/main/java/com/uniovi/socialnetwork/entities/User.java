@@ -28,6 +28,9 @@ public class User {
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     private Set<Invitation> receivedInvitations;
 
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private Set<Post> posts;
+
     public User(String email, String name, String lastName){
         super();
         this.email = email;
@@ -101,6 +104,8 @@ public class User {
         return this.friends;
     }
 
+
+
     public boolean receivedInvitationFromUser(String email){
         for (Invitation invitation: receivedInvitations){
             if (invitation.getSender().getEmail().equals(email)){
@@ -117,5 +122,13 @@ public class User {
             }
         }
         return false;
+    }
+
+    public Set<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
     }
 }

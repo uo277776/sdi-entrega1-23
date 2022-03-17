@@ -16,9 +16,10 @@ public class PO_PrivateView extends PO_NavView{
         elements.get(index).click();
     }
 
-    static public void clickById(WebDriver driver, String id){
+    static public void clickById(WebDriver driver, String id) {
         List<WebElement> elements = PO_View.checkElementBy(driver, "@id", id);
         elements.get(0).click();
+    }
 
     static public void fillFormAddMark(WebDriver driver, int userOrder, String descriptionp, String scorep){
         SeleniumUtils.waitSeconds(driver,5);
