@@ -7,6 +7,8 @@ import com.uniovi.socialnetwork.services.RolesService;
 import com.uniovi.socialnetwork.services.SecurityService;
 import com.uniovi.socialnetwork.services.UsersService;
 import com.uniovi.socialnetwork.validators.SignUpFormValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +23,8 @@ import java.util.Optional;
 
 @Controller
 public class UsersController {
+
+    private Logger log = LoggerFactory.getLogger(LoggerFactory.class);
 
     @Autowired
     private UsersService usersService;
@@ -45,6 +49,7 @@ public class UsersController {
 
     @RequestMapping("/user/list/update")
     public String updateList(Model model){
+        log.debug("Accediendo a /user/list/update");
         model.addAttribute("usersList", usersService.getUsers());
         return "user/list::tableUsers";
     }
@@ -125,6 +130,7 @@ public class UsersController {
 
     @RequestMapping(value={"/home"}, method= RequestMethod.GET)
     public String home(Model model){
+        log.debug("Accediendo a home");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         User activeUser = usersService.getUserByEmail(email);

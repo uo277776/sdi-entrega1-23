@@ -25,7 +25,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="user : ${usersList}">
+                <tr th:each="user : ${usersList}" class="userRow">
                     <td><input type="checkbox" th:id="${user.id}" name="user" th:value="${user.id}"/></td>
                     <td scope="row" th:text="${user.email}">71888888X</td>
                     <td scope="row" th:text="${user.name}">Nombre del alumno</td>
