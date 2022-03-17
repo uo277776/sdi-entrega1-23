@@ -1,11 +1,7 @@
 package com.uniovi.socialnetwork.pageobjects;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class PO_Properties {
@@ -18,30 +14,23 @@ public class PO_Properties {
 	}
 
 	static private String Path;
-	static int SPANISH = 0;
-	static int ENGLISH = 1;	
-	static Locale[] idioms = new Locale[] {new Locale("ES"), new Locale("EN")};
+	static final int SPANISH = 0;
+	static final int ENGLISH = 1;
+	static final Locale[] idioms = new Locale[] {new Locale("ES"), new Locale("EN")};
 	//static Properties p = new Properties();
 	public PO_Properties(String Path) //throws FileNotFoundException, IOException 
 	{
-		this.Path = Path;
-		//p.load(new FileReader(Path));
-		//p.getProperty()
+		PO_Properties.Path = Path;
 	}
 	//
 	// locale is de index in idioms array.
 	//
     public String getString(String prop, int locale) {
-		
 		ResourceBundle bundle = ResourceBundle.getBundle(Path, idioms[locale]);
 		String value = bundle.getString(prop);
-		String result="";
-		try {
-			result = new String(value.getBytes("ISO-8859-1"), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String result;
+		//result = new String(value.getBytes(StandardCharsets.ISO_8859_1),  StandardCharsets.UTF_8);
+		result = new String(value.getBytes(StandardCharsets.UTF_8),  StandardCharsets.UTF_8);
 		return result;
 	}
 

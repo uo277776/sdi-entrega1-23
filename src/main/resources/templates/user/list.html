@@ -1,6 +1,5 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="fragments/head"/>
 <body>
 
@@ -31,6 +30,7 @@
                     <td scope="row" th:text="${user.email}">71888888X</td>
                     <td scope="row" th:text="${user.name}">Nombre del alumno</td>
                     <td scope="row" th:text="${user.lastName}">Apellidos del alumno</td>
+                    <td scope="row"><a  th:id="${'sendInvitation_' + user.id}" th:if="${!user.receivedInvitationFromUser(#authentication.getName())}" th:href="${'/invitation/send/' + user.id}">Agregar amigo</a></td>
                 </tr>
                 </tbody>
             </table>

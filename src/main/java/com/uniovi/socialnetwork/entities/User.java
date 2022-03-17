@@ -14,18 +14,19 @@ public class User {
     private String email;
     private String name;
     private String lastName;
+    private String role;
 
     private String password;
-
     @Transient //propiedad que no se almacena en la tabla.
     private String passwordConfirm;
 
-    private String role;
+    @ManyToMany
+    private Set<User> friends;
 
-    @OneToMany(mappedBy = "owner")
-    private Set<Post> posts;
-
-
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    private Set<Invitation> sendedInvitations;
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+    private Set<Invitation> receivedInvitations;
 
     public User(String email, String name, String lastName){
         super();
@@ -92,11 +93,29 @@ public class User {
 
     public void setRole(String role){this.role = role;}
 
-    public Set<Post> getPosts() {
-        return posts;
+    public Set<Invitation> getReceivedInvitations(){
+        return this.receivedInvitations;
     }
 
-    public void setPosts(Set<Post> posts) {
-        this.posts = posts;
+    public Set<User> getFriends(){
+        return this.friends;
+    }
+
+    public boolean receivedInvitationFromUser(String email){
+        for (Invitation invitation: receivedInvitations){
+            if (invitation.getSender().getEmail().equals(email)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasSentInvitationToUser(User user){
+        for (Invitation invitation: sendedInvitations){
+            if (invitation.getReceiver().equals(user)){
+                return true;
+            }
+        }
+        return false;
     }
 }

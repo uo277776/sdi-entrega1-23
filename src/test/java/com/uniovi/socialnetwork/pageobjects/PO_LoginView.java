@@ -6,28 +6,33 @@ import org.openqa.selenium.WebElement;
 
 public class PO_LoginView extends PO_NavView{
 
-    static public void fillLoginForm(WebDriver driver,String usernamep,String passwordp){
+    static public void fillLoginForm(WebDriver driver, String emailp, String passwordp){
+
         WebElement username = driver.findElement(By.name("username"));
         username.click();
         username.clear();
-        username.sendKeys(usernamep);
+        username.sendKeys(emailp);
+
         WebElement password = driver.findElement(By.name("password"));
         password.click();
         password.clear();
         password.sendKeys(passwordp);
-        //Boton
+
         By boton = By.className("btn");
         driver.findElement(boton).click();
     }
 
-    static public void login(WebDriver driver,String email,String password){
-        PO_HomeView.clickOption(driver,"login","class","btn btn-primary");
-        //Rellenamos
-        PO_LoginView.fillLoginForm(driver,email,password);
+    static public void logIn(WebDriver driver, String username, String password, String checkText){
+        //Vamos al formulario de logueo.
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos el formulario
+        PO_LoginView.fillLoginForm(driver, username, password);
+        //Comprobamos que entramos en la pagina privada
+        PO_View.checkElementBy(driver, "text", checkText);
     }
 
-    static public void logout(WebDriver driver){
-        String loginText = PO_HomeView.getP().getString("signup.message",PO_Properties.getSPANISH());
-        PO_PrivateView.clickOption(driver,"logout","text",loginText);
+    static public void logOut(WebDriver driver){
+        String loginText = PO_HomeView.getP().getString("signup.message", PO_Properties.getSPANISH());
+        PO_PrivateView.clickOption(driver, "logout", "text", loginText);
     }
 }
