@@ -21,10 +21,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
 import java.security.Principal;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 @Controller
 public class UsersController {
+
+    private Logger log = LoggerFactory.getLogger(LoggerFactory.class);
 
     @Autowired
     private UsersService usersService;
@@ -98,13 +102,11 @@ public class UsersController {
         return "redirect:/user/list";
     }
 
-    /*
     @RequestMapping("/user/details/{id}")
     public String getDetail(Model model, @PathVariable Long id){
         model.addAttribute("user", usersService.getUser(id));
         return "user/details";
     }
-    */
 
     @RequestMapping("/user/delete/{id}")
     public String delete(@PathVariable Long id){
