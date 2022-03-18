@@ -1,9 +1,6 @@
 package com.uniovi.socialnetwork;
 
-import com.uniovi.socialnetwork.pageobjects.PO_HomeView;
-import com.uniovi.socialnetwork.pageobjects.PO_LoginView;
-import com.uniovi.socialnetwork.pageobjects.PO_PrivateView;
-import com.uniovi.socialnetwork.pageobjects.PO_View;
+import com.uniovi.socialnetwork.pageobjects.*;
 import com.uniovi.socialnetwork.util.SeleniumUtils;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
@@ -53,6 +50,89 @@ class SdiEntrega123ApplicationTests {
     static public void end() {
         //Cerramos el navegador al finalizar las pruebas
         driver.quit();
+    }
+
+    @Test
+    @Order(1)
+    void PR01(){
+        PO_SignUpView.signUp(driver, "test@email.com", "testName", "testLastName", "testPass", "testPass");
+        PO_View.checkElementBy(driver, "text", "Usuarios");
+        Assertions.assertEquals(URL + "/user/list", driver.getCurrentUrl());
+    }
+
+    @Test
+    @Order(2)
+    void PR02(){
+        PO_SignUpView.signUp(driver, "", "", "", "", "");
+        PO_View.checkElementBy(driver, "text", "Identifícate");
+        Assertions.assertEquals(URL + "/signup", driver.getCurrentUrl());
+    }
+
+    @Test
+    @Order(3)
+    void PR03(){
+        PO_SignUpView.signUp(driver, "prueba@email.com", "testName", "testLastName", "testPass", "wrongPass");
+        String checkText = PO_HomeView.getP().getString("Error.signup.passwordConfirm.coincidence", PO_Properties.getSPANISH());
+        PO_View.checkElementBy(driver, "text", checkText);
+    }
+
+    @Test
+    @Order(4)
+    void PR04(){
+        PO_SignUpView.signUp(driver, "user01@email.com", "User01", "User01", "user01", "user01");
+        String checkText = PO_HomeView.getP().getString("Error.signup.email.duplicate", PO_Properties.getSPANISH());
+        PO_View.checkElementBy(driver, "text", checkText);
+    }
+
+    @Test
+    @Order(5)
+    void PR05(){
+        PO_LoginView.logIn(driver, "admin@email.com", "admin");
+        PO_View.checkElementBy(driver, "text", "Eliminar");
+        Assertions.assertEquals(URL + "/user/list", driver.getCurrentUrl());
+    }
+
+    @Test
+    @Order(6)
+    void PR06(){
+        PO_LoginView.logIn(driver, "user01@email.com", "user01");
+        SeleniumUtils.textIsNotPresentOnPage(driver, "Eliminar");
+        Assertions.assertEquals(URL + "/user/list", driver.getCurrentUrl());
+    }
+
+    @Test
+    @Order(7)
+    void PR07(){
+        PO_LoginView.logIn(driver, "", "");
+        Assertions.assertEquals(URL + "/login", driver.getCurrentUrl());
+    }
+
+    @Test
+    @Order(8)
+    void PR08(){
+        PO_LoginView.logIn(driver, "user01@emai.com", "wrongPass");
+        PO_View.checkElementBy(driver, "text", PO_View.getP().getString("Error.login", PO_Properties.getSPANISH()));
+        Assertions.assertEquals(URL + "/login?error", driver.getCurrentUrl());
+    }
+
+    @Test
+    @Order(9)
+    void PR09(){
+        PO_LoginView.logIn(driver, "user01@email.com", "user01");
+        PO_LoginView.logOut(driver);
+
+        String checkText = "Identifícate";
+        List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
+        Assertions.assertEquals(checkText, result.get(0).getText());
+
+        Assertions.assertEquals(URL + "/login?logout", driver.getCurrentUrl());
+    }
+
+    @Test
+    @Order(10)
+    void PR10(){
+        String checkText = "Desconectar";
+        SeleniumUtils.waitTextIsNotPresentOnPage(driver, checkText, PO_View.getTimeout());
     }
 
     @Test

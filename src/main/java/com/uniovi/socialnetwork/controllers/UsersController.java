@@ -19,7 +19,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 @Controller
 public class UsersController {
@@ -114,7 +116,7 @@ public class UsersController {
         user.setRole(rolesService.getRoles()[0]);
         usersService.addUser(user);
         securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
-        return "redirect:home";
+        return "redirect:/user/list";
     }
 
     @RequestMapping(value="/signup", method=RequestMethod.GET)
@@ -124,17 +126,10 @@ public class UsersController {
     }
 
     @RequestMapping(value="/login", method = RequestMethod.GET)
-    public String login(Model model){
+    public String login(Model model, String error){
+        if (error != null){
+            model.addAttribute("error", ResourceBundle.getBundle("messages"));
+        }
         return "login";
-    }
-
-    @RequestMapping(value={"/home"}, method= RequestMethod.GET)
-    public String home(Model model){
-        log.debug("Accediendo a home");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        User activeUser = usersService.getUserByEmail(email);
-        //model.addAttribute("markList", activeUser.getMarks());
-        return "home";
     }
 }
