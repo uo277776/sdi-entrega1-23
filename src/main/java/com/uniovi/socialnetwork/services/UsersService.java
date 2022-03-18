@@ -3,6 +3,8 @@ package com.uniovi.socialnetwork.services;
 import com.uniovi.socialnetwork.entities.User;
 import com.uniovi.socialnetwork.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +26,13 @@ public class UsersService {
 
     }
 
+    public Page<User> getStandardUsers(Pageable pageable, User user){
+        Page<User> users = usersRepository.findStandardUsers(pageable,user);
+        return users;
+    }
+
     public List<User> getUsers(){
-        List<User> users = new ArrayList<>();
+        List<User> users = new ArrayList<User>();
         usersRepository.findUsers().forEach(users::add);
         return users;
     }
@@ -45,6 +52,11 @@ public class UsersService {
         originalUser.setName(user.getName());
         originalUser.setLastName(user.getLastName());
         usersRepository.save(originalUser);
+    }
+
+    public void acceptInvitation(User user1,User user2){
+        user1.addFriend(user2);
+        user2.addFriend(user1);
     }
 
     public User getUserByEmail(String email){

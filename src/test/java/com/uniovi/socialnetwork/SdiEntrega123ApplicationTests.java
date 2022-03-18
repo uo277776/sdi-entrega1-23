@@ -18,9 +18,11 @@ import java.util.List;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class SdiEntrega123ApplicationTests {
 
-    static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+    static String PathFirefox = "C:\\Users\\buhos\\AppData\\Local\\Mozilla Firefox\\firefox.exe";
+    static String Geckodriver = "C:\\Users\\buhos\\Documents\\Universidad\\Cuarto\\Segundo Cuatri\\SDI\\Utilidad\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
-    static String Geckodriver = "C:\\Dev\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Dev\\geckodriver-v0.30.0-win64.exe";
 
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     // static String Geckodriver = "/Users/USUARIO/selenium/geckodriver-v0.30.0-macos";
@@ -69,6 +71,23 @@ class SdiEntrega123ApplicationTests {
 
         List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
         Assertions.assertEquals(6,list.size());
+    }
+
+    @Test
+    @Order(12)
+    void PR12(){
+        PO_LoginView.logIn(driver,"admin@email.com","admin");
+        driver.navigate().to(URL + "/user/list");
+        //Clickamos en el checkbox del usuario 1 y al boton eliminar
+        PO_PrivateView.clickById(driver,"1");
+        PO_PrivateView.clickById(driver, "btnEliminar");
+
+        List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
+        Assertions.assertEquals(4,list.size());
+
+
+
+
     }
 
     @Test

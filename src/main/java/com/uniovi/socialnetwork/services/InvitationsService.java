@@ -30,4 +30,8 @@ public class InvitationsService {
         invitations = invitationsRepository.findAllByUser(pageable, user);
         return invitations;
     }
+
+    public Invitation getInvitation(Long id){
+        return invitationsRepository.findById(id).get();
+    }
 }
