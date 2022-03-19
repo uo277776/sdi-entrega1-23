@@ -1,13 +1,19 @@
 package com.uniovi.socialnetwork.entities;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
+@Table(name="post")
 public class Post {
 
      @Id
      @GeneratedValue
-    private Long id;
+     private Long id;
+
+     private String tittle;
+     private String text;
+     private Date date;
 
     @ManyToOne
     @JoinColumn(name = "owner")
