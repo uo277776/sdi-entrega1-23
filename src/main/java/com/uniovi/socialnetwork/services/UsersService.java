@@ -4,6 +4,7 @@ import com.uniovi.socialnetwork.entities.User;
 import com.uniovi.socialnetwork.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -67,4 +68,10 @@ public class UsersService {
         usersRepository.deleteById(id);
     }
 
+    public Page<User> searchUsersByNameSurnameAndEmail (Pageable pageable, String searchText, User user) {
+        Page<User> marks = new PageImpl<User>(new ArrayList<User>());
+        searchText = "%"+searchText+"%";
+        marks = usersRepository.searchUsersByNameSurnameAndEmail(pageable, searchText, user);
+        return marks;
+    }
 }

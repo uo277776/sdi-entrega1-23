@@ -10,6 +10,8 @@ import com.uniovi.socialnetwork.validators.SignUpFormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -46,14 +49,21 @@ public class UsersController {
     private RolesService rolesService;
 
     @RequestMapping("/user/list")
-    public String getList(Model model, Principal principal, Pageable pageable){
+    public String getList(Model model, Principal principal, Pageable pageable, @RequestParam(value= "", required = false)String searchText){
         String email = principal.getName();
         User user = usersService.getUserByEmail(email);
+
         if(user.getRole().equals("ROLE_ADMIN")){
             model.addAttribute("usersList", usersService.getUsers());
             return "admin/list";
         }else {
-            model.addAttribute("usersList", usersService.getStandardUsers(pageable,user));
+            Page<User> users = new PageImpl<User>(new ArrayList<User>());
+            if(searchText != null && !searchText.isBlank())
+                users = usersService.searchUsersByNameSurnameAndEmail(pageable,searchText,user);
+            else
+                users = usersService.getStandardUsers(pageable,user);
+
+            model.addAttribute("usersList",users);
             return "user/list";
         }
 
