@@ -44,6 +44,11 @@ public class InsertSampleDataService {
         admin.setPassword("admin");
         admin.setRole(rolesService.getRoles()[1]);
 
+        //amistades
+        user1.addFriend(user2);
+        user1.addFriend(user3);
+
+
         usersService.addUser(user1);
         usersService.addUser(user2);
         usersService.addUser(user3);

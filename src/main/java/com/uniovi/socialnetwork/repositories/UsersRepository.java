@@ -20,4 +20,7 @@ public interface UsersRepository extends CrudRepository<User, Long> {
 
     @Query("SELECT r FROM User r WHERE NOT r = ?2 AND (LOWER(r.name) LIKE LOWER(?1) OR LOWER(r.lastName) LIKE LOWER(?1) OR LOWER(r.email) LIKE LOWER(?1)) AND r.role NOT LIKE ('ROLE_ADMIN')")
     Page<User> searchUsersByNameSurnameAndEmail(Pageable pageable, String searchtext, User user);
+
+    @Query("SELECT f FROM User u JOIN u.friends f WHERE u = ?1")
+    Page<User> getFriendsForUser(Pageable pageable, User user);
 }

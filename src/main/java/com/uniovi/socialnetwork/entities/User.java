@@ -1,6 +1,7 @@
 package com.uniovi.socialnetwork.entities;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -29,16 +30,16 @@ public class User {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private Set<Post> posts;
 
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
             name = "Friendship",
             joinColumns = {@JoinColumn(name = "USER_ID")},
             inverseJoinColumns = {@JoinColumn(name = "FRIEND_ID")}
     )
-    private Set<User> friends;
+    private Set<User> friends = new HashSet<>();
 
     @ManyToMany(mappedBy = "friends")
-    private Set<User> friends_of;
+    private Set<User> friends_of = new HashSet<>();
 
     public User(String email, String name, String lastName){
         super();
@@ -155,8 +156,10 @@ public class User {
     }
 
     public void addFriend(User user){
-        friends.add(user);
-        user.getFriends_of().add(this);
+        if(!friends.contains(user)) {
+            friends.add(user);
+            user.getFriends_of().add(this);
+        }
     }
 
 }

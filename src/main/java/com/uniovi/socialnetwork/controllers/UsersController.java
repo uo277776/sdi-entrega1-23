@@ -1,5 +1,6 @@
 package com.uniovi.socialnetwork.controllers;
 
+import com.uniovi.socialnetwork.entities.Invitation;
 import com.uniovi.socialnetwork.entities.Post;
 import com.uniovi.socialnetwork.entities.User;
 import com.uniovi.socialnetwork.services.PostsService;
@@ -23,10 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @Controller
 public class UsersController {
@@ -81,6 +79,18 @@ public class UsersController {
             return "user/list::tableUsers";
         }
 
+    }
+
+    @RequestMapping("/user/friends")
+    public String getFriendsList(Model model, Pageable pageable, Principal principal){
+        String email = principal.getName();
+        User user = usersService.getUserByEmail(email);
+        Page<User> friends = new PageImpl<User>(new ArrayList<>());
+        friends = usersService.getFriendsForUser(pageable, user);
+        System.out.println(friends.getContent());
+        model.addAttribute("friendsList", friends.getContent());
+        model.addAttribute("page", friends);
+        return "/user/friends";
     }
 
     @RequestMapping(value="/user/add")

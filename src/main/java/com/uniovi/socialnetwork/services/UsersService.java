@@ -1,5 +1,6 @@
 package com.uniovi.socialnetwork.services;
 
+import com.uniovi.socialnetwork.entities.Invitation;
 import com.uniovi.socialnetwork.entities.User;
 import com.uniovi.socialnetwork.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,9 +70,15 @@ public class UsersService {
     }
 
     public Page<User> searchUsersByNameSurnameAndEmail (Pageable pageable, String searchText, User user) {
-        Page<User> marks = new PageImpl<User>(new ArrayList<User>());
+        Page<User> users = new PageImpl<User>(new ArrayList<User>());
         searchText = "%"+searchText+"%";
-        marks = usersRepository.searchUsersByNameSurnameAndEmail(pageable, searchText, user);
-        return marks;
+        users = usersRepository.searchUsersByNameSurnameAndEmail(pageable, searchText, user);
+        return users;
+    }
+
+    public Page<User> getFriendsForUser(Pageable pageable, User user) {
+        Page<User> users = new PageImpl<User>(new ArrayList<User>());
+        users = usersRepository.getFriendsForUser(pageable, user);
+        return users;
     }
 }
