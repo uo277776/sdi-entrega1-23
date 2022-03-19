@@ -87,7 +87,6 @@ public class UsersController {
         User user = usersService.getUserByEmail(email);
         Page<User> friends = new PageImpl<User>(new ArrayList<>());
         friends = usersService.getFriendsForUser(pageable, user);
-        System.out.println(friends.getContent());
         model.addAttribute("friendsList", friends.getContent());
         model.addAttribute("page", friends);
         return "/user/friends";
