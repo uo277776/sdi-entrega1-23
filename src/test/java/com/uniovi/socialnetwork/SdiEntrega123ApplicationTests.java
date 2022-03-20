@@ -232,4 +232,22 @@ class SdiEntrega123ApplicationTests {
         PO_HomeView.checkChangeLanguageText(driver, "user.list.lastName");
     }
 
+    @Test
+    @Order(30)
+    void PR30(){
+        //Comprobamos que nos redirige a la vista de log in
+        driver.navigate().to(URL + "/user/list");
+        PO_View.checkElementBy(driver, "text", PO_View.getP().getString("login.message", PO_Properties.getSPANISH()));
+        Assertions.assertEquals(URL + "/login", driver.getCurrentUrl());
+    }
+
+    @Test
+    @Order(31)
+    void PR31(){
+        //Comprobamos que nos redirige a la vista de log in
+        driver.navigate().to(URL + "/invitation/list");
+        PO_View.checkElementBy(driver, "text", PO_View.getP().getString("login.message", PO_Properties.getSPANISH()));
+        Assertions.assertEquals(URL + "/login", driver.getCurrentUrl());
+    }
+
 }
