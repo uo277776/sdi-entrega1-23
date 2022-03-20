@@ -1,5 +1,6 @@
 package com.uniovi.socialnetwork;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,9 @@ public class CustomConfiguration implements WebMvcConfigurer {
 
     @Value(value = "${spring.data.web.pageable.page-parameter}")
     private int page;
+
+    @Autowired
+    LoggerInterceptor interceptor;
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers){
@@ -48,5 +52,6 @@ public class CustomConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
+        registry.addInterceptor(interceptor);
     }
 }

@@ -61,7 +61,8 @@ public class UsersController {
             else
                 users = usersService.getStandardUsers(pageable,user);
 
-            model.addAttribute("usersList",users);
+            model.addAttribute("usersList",users.getContent());
+            model.addAttribute("page",users);
             return "user/list";
         }
 

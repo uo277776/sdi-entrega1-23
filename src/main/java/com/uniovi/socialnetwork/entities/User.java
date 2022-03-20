@@ -127,7 +127,7 @@ public class User {
 
     public boolean hasSentInvitationToUser(User user){
         for (Invitation invitation: sendedInvitations){
-            if (invitation.getReceiver().equals(user)){
+            if (invitation.getReceiver().getEmail().equals(user)){
                 return true;
             }
         }
@@ -156,10 +156,28 @@ public class User {
     }
 
     public void addFriend(User user){
-        if(!friends.contains(user)) {
+        if(!friends.contains(user) || !friends_of.contains(user)) {
             friends.add(user);
             user.getFriends_of().add(this);
         }
+    }
+
+    public boolean isAnyRelation(String email){
+        return isFriend(email) || receivedInvitationFromUser(email);
+    }
+
+    public boolean isFriend(String email){
+        for(User user : friends){
+            if(user.getEmail().equals(email)){
+                return true;
+            }
+        }
+        for(User user: friends_of){
+            if(user.getEmail().equals(email)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
