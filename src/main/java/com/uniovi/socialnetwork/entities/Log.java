@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 public class Log {
@@ -21,6 +22,7 @@ public class Log {
 
     public Log(String type,String message){
         this.type = type;
+        fecha= Timestamp.valueOf(LocalDateTime.now());
         this.message = message;
     }
 

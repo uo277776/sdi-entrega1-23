@@ -39,17 +39,39 @@ public class InsertSampleDataService {
         User user6 = new User("user06@email.com", "User06", "User06");
         user6.setPassword("user06");
         user6.setRole(rolesService.getRoles()[0]);
+        User user7 = new User("user07@email.com", "User07", "User07");
+        user7.setPassword("user07");
+        user7.setRole(rolesService.getRoles()[0]);
+        User user8 = new User("user08@email.com", "User08", "User08");
+        user8.setPassword("user08");
+        user8.setRole(rolesService.getRoles()[0]);
+        User user9 = new User("user09@email.com", "User09", "User09");
+        user9.setPassword("user09");
+        user9.setRole(rolesService.getRoles()[0]);
+        User user10 = new User("user10@email.com", "User10", "User10");
+        user10.setPassword("user10");
+        user10.setRole(rolesService.getRoles()[0]);
+        User user11 = new User("user11@email.com", "User11", "User11");
+        user11.setPassword("user11");
+        user11.setRole(rolesService.getRoles()[0]);
+        User user12 = new User("user12@email.com", "User12", "User12");
+        user12.setPassword("user12");
+        user12.setRole(rolesService.getRoles()[0]);
+
+        User user13 = new User("user13@email.com", "User13", "User13");
+        user13.setPassword("user13");
+        user13.setRole(rolesService.getRoles()[0]);
+        User user14 = new User("user14@email.com", "User14", "User14");
+        user14.setPassword("user14");
+        user14.setRole(rolesService.getRoles()[0]);
+        User user15 = new User("user15@email.com", "User15", "User15");
+        user15.setPassword("user15");
+        user15.setRole(rolesService.getRoles()[0]);
+
 
         User admin = new User("admin@email.com", "Admin", "Admin");
         admin.setPassword("admin");
         admin.setRole(rolesService.getRoles()[1]);
-
-        //amistades
-        user1.addFriend(user2);
-        user2.addFriend(user1);
-
-        user1.addFriend(user3);
-        user3.addFriend(user1);
 
 
         usersService.addUser(user1);
@@ -58,6 +80,15 @@ public class InsertSampleDataService {
         usersService.addUser(user4);
         usersService.addUser(user5);
         usersService.addUser(user6);
+        usersService.addUser(user7);
+        usersService.addUser(user8);
+        usersService.addUser(user9);
+        usersService.addUser(user10);
+        usersService.addUser(user11);
+        usersService.addUser(user12);
+        usersService.addUser(user13);
+        usersService.addUser(user14);
+        usersService.addUser(user15);
 
         usersService.addUser(admin);
 

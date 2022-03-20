@@ -3,6 +3,7 @@ package com.uniovi.socialnetwork.controllers;
 import com.uniovi.socialnetwork.entities.Invitation;
 import com.uniovi.socialnetwork.entities.User;
 import com.uniovi.socialnetwork.services.InvitationsService;
+import com.uniovi.socialnetwork.services.LoggerService;
 import com.uniovi.socialnetwork.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,9 @@ public class InvitationsController {
 
     @Autowired
     private UsersService usersService;
+
+    @Autowired
+    private LoggerService loggerService;
 
     @RequestMapping("/invitation/send/{id}")
     public String sendInvitation(Model model, @PathVariable Long id){

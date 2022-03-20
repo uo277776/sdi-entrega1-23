@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsersService {
@@ -66,6 +67,8 @@ public class UsersService {
     }
 
     public void deleteUser(Long id){
+        User user = usersRepository.findById(id).get();
+        user.getFriends().forEach(user1 -> { user1.deleteRelations(user);});
         usersRepository.deleteById(id);
     }
 

@@ -30,11 +30,11 @@ public class User {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private Set<Post> posts;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "Friendship",
-            joinColumns = {@JoinColumn(name = "USER_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "FRIEND_ID")}
+            joinColumns = {@JoinColumn(name = "friend")},
+            inverseJoinColumns = {@JoinColumn(name = "friend_of")}
     )
     private Set<User> friends = new HashSet<>();
 
@@ -178,6 +178,11 @@ public class User {
             }
         }
         return false;
+    }
+
+    public void deleteRelations(User user){
+        friends.remove(user);
+        friends_of.remove(user);
     }
 
 }

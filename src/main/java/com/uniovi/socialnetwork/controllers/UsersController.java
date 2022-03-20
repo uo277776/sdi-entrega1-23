@@ -3,10 +3,7 @@ package com.uniovi.socialnetwork.controllers;
 import com.uniovi.socialnetwork.entities.Invitation;
 import com.uniovi.socialnetwork.entities.Post;
 import com.uniovi.socialnetwork.entities.User;
-import com.uniovi.socialnetwork.services.PostsService;
-import com.uniovi.socialnetwork.services.RolesService;
-import com.uniovi.socialnetwork.services.SecurityService;
-import com.uniovi.socialnetwork.services.UsersService;
+import com.uniovi.socialnetwork.services.*;
 import com.uniovi.socialnetwork.validators.SignUpFormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,8 +43,12 @@ public class UsersController {
     @Autowired
     private RolesService rolesService;
 
+    @Autowired
+    private LoggerService loggerService;
+
     @RequestMapping("/user/list")
     public String getList(Model model, Principal principal, Pageable pageable, @RequestParam(value= "", required = false)String searchText){
+        loggerService.addLog("PET","HOLA");
         String email = principal.getName();
         User user = usersService.getUserByEmail(email);
 
@@ -157,7 +158,7 @@ public class UsersController {
         user.setRole(rolesService.getRoles()[0]);
         usersService.addUser(user);
         securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
-        return "redirect:home";
+        return "redirect:/user/list";
     }
 
     @RequestMapping(value="/signup", method=RequestMethod.GET)
