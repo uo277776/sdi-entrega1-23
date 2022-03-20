@@ -10,31 +10,23 @@
         <div class="mr-auto">
             <ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
                 <li class="nav-item ">
-                    <a class="nav-link" href="/home">Home<span class="sr-only">(current)</span></a>
-                </li>
-                <li id= "users-menu" class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false" th:text="#{nav.admin}"> Gestión</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/user/list" th:text="#{nav.admin.users}">Ver usuarios</a>
-                        <a class="dropdown-item" href="/log/list" th:text="#{nav.admin.logs}">Ver logs</a>
-                    </div>
+                    <a class="nav-link" href="/user/list" th:text="#{nav.user}">Usuarios<span class="sr-only">(current)</span></a>
                 </li>
                 <li id= "marks-menu" class="nav-item dropdown active" sec:authorize="hasRole('STANDARD')">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false" th:text="#{nav.post}"> Gestión de publicaciones </a>
+                       aria-haspopup="true" aria-expanded="false" th:text="#{nav.post}">Gestión de publicaciones </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/post/add" th:text="#{nav.post.add}">Agregar publicación</a>
                         <a class="dropdown-item" href="/post/list" th:text="#{nav.post.list}">Ver publicaciones</a>
                     </div>
                 </li>
-                <li id= "professor-menu" class="nav-item dropdown" sec:authorize="hasRole('STANDARD')">
-                    <a class="nav-link dropdown-toggle" href="#" id="profesorDropdown" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false" th:text="#{nav.friends}"> Gestión de amigos
+                <li id= "friends-menu" class="nav-item dropdown" sec:authorize="hasRole('STANDARD')">
+                    <a class="nav-link dropdown-toggle" href="#" id="friendDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" th:text="#{nav.friend}">Gestión de amigos
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/user/friends" th:text="#{nav.friends.list}">Ver amigos</a>
-                        <a class="dropdown-item" href="/invitation/list" th:text="#{nav.friends.invitations}">Ver invitaciones recibidas</a>
+                        <a class="dropdown-item" href="/user/friends" th:text="#{nav.friend.list}">Ver amigos</a>
+                        <a class="dropdown-item" href="/invitation/list" th:text="#{nav.invitation}">Ver invitaciones recibidas</a>
                     </div>
                 </li>
             </ul>

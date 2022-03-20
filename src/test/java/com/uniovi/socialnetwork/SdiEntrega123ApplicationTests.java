@@ -151,7 +151,7 @@ class SdiEntrega123ApplicationTests {
         elements.get(0).click();
 
         List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
-        Assertions.assertEquals(7,list.size());
+        Assertions.assertEquals(6,list.size());
     }
 
     @Test
@@ -159,44 +159,20 @@ class SdiEntrega123ApplicationTests {
     void PR12(){
         PO_LoginView.logIn(driver,"admin@email.com","admin");
         driver.navigate().to(URL + "/user/list");
-        //Comprobamos que estan todos los usuarios
-        List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
-        Assertions.assertEquals(7,list.size());
-
         //Clickamos en el checkbox del usuario 1 y al boton eliminar
         PO_PrivateView.clickById(driver,"1");
         PO_PrivateView.clickById(driver, "btnEliminar");
 
-        list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
-        Assertions.assertEquals(6,list.size());
-
-        PO_LoginView.logOut(driver);
-    }
-
-    @Test
-    @Order(13)
-    void PR13(){
-        PO_LoginView.logIn(driver,"admin@email.com","admin");
-        driver.navigate().to(URL + "/user/list");
-        //Comprobamos que estan todos los usuarios
         List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
-        Assertions.assertEquals(6,list.size());
+        Assertions.assertEquals(4,list.size());
 
-        //Clickamos en el checkbox del usuario 1 y al boton eliminar
-        PO_PrivateView.clickById(driver,"6");
-        PO_PrivateView.clickById(driver, "btnEliminar");
 
-        list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
-        Assertions.assertEquals(5,list.size());
 
-        PO_LoginView.logOut(driver);
+
     }
 
-
-
-
     @Test
-    @Order(14)
+    @Order(1)
     void PR19(){
         //We log in as user01 and send an invitation to user02
         PO_LoginView.logIn(driver, "user01@email.com", "user01");
@@ -213,7 +189,7 @@ class SdiEntrega123ApplicationTests {
     }
 
     @Test
-    @Order(15)
+    @Order(2)
     void PR20(){
         //We log in as user01 and send an invitation to user02
         PO_LoginView.logIn(driver, "user01@email.com", "user01");
@@ -226,7 +202,7 @@ class SdiEntrega123ApplicationTests {
     }
 
     @Test
-    @Order(16)
+    @Order(3)
     void PR21(){
         //We log in as user01 go to the invitations list
         PO_LoginView.logIn(driver, "user01@email.com", "user01");
