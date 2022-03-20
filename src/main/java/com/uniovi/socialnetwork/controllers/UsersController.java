@@ -48,7 +48,7 @@ public class UsersController {
 
     @RequestMapping("/user/list")
     public String getList(Model model, Principal principal, Pageable pageable, @RequestParam(value= "", required = false)String searchText){
-        loggerService.addLog("PET","HOLA");
+        loggerService.add("PET","HOLA");
         String email = principal.getName();
         User user = usersService.getUserByEmail(email);
 

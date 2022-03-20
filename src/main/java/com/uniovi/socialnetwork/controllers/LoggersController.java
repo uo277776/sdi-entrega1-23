@@ -18,7 +18,7 @@ public class LoggersController {
 
     @RequestMapping("/log/list")
     public String getList(Model model){
-        List<Log> logs = loggerService.getAllLogs();
+        List<Log> logs = loggerService.getList();
         model.addAttribute("logs",logs);
         return "admin/logs";
     }

@@ -14,7 +14,7 @@ public class LoggerService {
     @Autowired
     private LogsRepository logsRepository;
 
-    public void addLog(String type,String message){
+    public void add(String type,String message){
         Log log = new Log(type,message);
         logsRepository.save(log);
     }
@@ -27,7 +27,7 @@ public class LoggerService {
         return logsRepository.findByType(type);
     }
 
-    public List<Log> getAllLogs(){
+    public List<Log> getList(){
         List<Log> logs = new ArrayList<Log>();
         logsRepository.findAll().forEach(logs::add);
         return logs;

@@ -59,7 +59,7 @@ public class InvitationsController {
     public String acceptInvitation(@PathVariable Long id){
         Invitation invitation = invitationsService.getInvitation(id);
         usersService.acceptInvitation(invitation.getReceiver(),invitation.getSender());
-        invitationsService.deleteInvitation(id);
+        invitationsService.deleteAllInvitationsBetween(invitation.getReceiver(),invitation.getSender());
         return "redirect:/invitation/list";
     }
 }

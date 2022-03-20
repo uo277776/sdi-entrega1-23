@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
+import java.util.List;
 
 @Service
 public class InvitationsService {
@@ -33,5 +34,12 @@ public class InvitationsService {
 
     public Invitation getInvitation(Long id){
         return invitationsRepository.findById(id).get();
+    }
+
+    public void deleteAllInvitationsBetween(User user1,User user2){
+        List<Invitation> invitation = invitationsRepository.deleteInvitationsBetween(user1,user2);
+        for(Invitation inv : invitation){
+            invitationsRepository.deleteById(inv.getId());
+        }
     }
 }

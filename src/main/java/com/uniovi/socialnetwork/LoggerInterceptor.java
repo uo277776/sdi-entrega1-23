@@ -27,7 +27,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
-        loggerService.addLog("PET","hola");
+        loggerService.add("PET","hola");
         return true;
     }
 
