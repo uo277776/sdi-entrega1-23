@@ -27,17 +27,32 @@ public class LoggerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
-        loggerService.add("PET","hola");
+
+        String url = request.getRequestURL().toString();
+        if(url.contains("http://localhost:8090/user")){
+            loggerService.addLog("PET","UsersController "+request.getMethod()+ " parameters:"+request.getParameterMap());
+        }
+        else if(url.contains("http://localhost:8090/invitation")){
+            loggerService.addLog("PET","InvitationsController "+request.getMethod()+ " parameters:"+request.getParameterMap());
+        }
+        else if(url.contains("http://localhost:8090/signup")){
+            loggerService.addLog("PET","UsersController "+request.getMethod()+ " parameters:"+request.getParameterMap());
+        }
+        else if(url.contains("http://localhost:8090/logout")){
+            loggerService.addLog("PET","UsersController "+request.getMethod()+ " parameters:"+request.getParameterMap());
+        }
         return true;
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
-    }
-
-    @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
+        String url = request.getRequestURL().toString();
+        if(url.contains("http://localhost:8090/login") || url.contentEquals("http://localhost:8090/")){
+            String query = request.getQueryString();
+            if(query==null)
+                loggerService.addLog("“LOGIN-EX","hola");
+            else if(query.equals("error"))
+                loggerService.addLog("“LOGIN-ERR","hola");
+        }
     }
 }
