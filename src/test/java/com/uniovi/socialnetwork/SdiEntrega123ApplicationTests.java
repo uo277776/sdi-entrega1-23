@@ -266,7 +266,7 @@ class SdiEntrega123ApplicationTests {
     }
 
     @Test
-    @Order(1)
+    @Order(27)
     void PR27(){
         PO_LoginView.logIn(driver, "user01@email.com", "user01");
         driver.navigate().to(URL + "/user/friends");
@@ -275,7 +275,16 @@ class SdiEntrega123ApplicationTests {
 
         List<WebElement> list = driver.findElements(By.name("post"));
         Assertions.assertEquals(0, list.size());
+    }
 
+    @Test
+    @Order(28)
+    void PR28(){
+        PO_LoginView.logIn(driver, "user02@email.com", "user02");
+        driver.navigate().to(URL + "/post/list/user02@email.com");
+
+        //Nos redirige a la vista de amigos
+        Assertions.assertEquals(URL + "/user/friends", driver.getCurrentUrl());
     }
 
     @Test
