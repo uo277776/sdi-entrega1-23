@@ -1,7 +1,9 @@
 package com.uniovi.socialnetwork;
 
+import com.uniovi.socialnetwork.entities.Post;
 import com.uniovi.socialnetwork.pageobjects.*;
 import com.uniovi.socialnetwork.services.InsertSampleDataService;
+import com.uniovi.socialnetwork.services.PostsService;
 import com.uniovi.socialnetwork.services.UsersService;
 import com.uniovi.socialnetwork.util.SeleniumUtils;
 import org.junit.jupiter.api.*;
@@ -40,6 +42,9 @@ class SdiEntrega123ApplicationTests {
 
     @Autowired
     private UsersService usersService;
+
+    @Autowired
+    private PostsService postsService;
 
     @BeforeEach
     public void setUp(){
@@ -260,7 +265,6 @@ class SdiEntrega123ApplicationTests {
     void PR26(){
         PO_LoginView.logIn(driver, "user01@email.com", "user01");
         driver.navigate().to(URL+ "/post/list");
-
         List<WebElement> list = driver.findElements(By.name("post"));
         Assertions.assertEquals(5, list.size());
     }
@@ -326,6 +330,43 @@ class SdiEntrega123ApplicationTests {
         driver.navigate().to(URL + "/invitation/list");
         PO_View.checkElementBy(driver, "text", PO_View.getP().getString("login.message", PO_Properties.getSPANISH()));
         Assertions.assertEquals(URL + "/login", driver.getCurrentUrl());
+    }
+
+    @Test
+    @Order(35)
+    void PR35(){
+        PO_LoginView.logIn(driver, "user01@email.com", "user01");
+        driver.navigate().to(URL + "/post/list/user02@email.com");
+        List<WebElement> list = driver.findElements(By.className("like"));
+        list.get(0).click();
+
+        //Comprobamos que el número de recomendaciones es 1
+        List<WebElement> elements = driver.findElements(By.className("numberOfLikes"));
+        Assertions.assertEquals("Recomendaciones: 1", elements.get(0).getText());
+
+        //El enlace desaparece
+        list = driver.findElements(By.className("like"));
+        Assertions.assertEquals(0, list.size());
+    }
+
+    @Test
+    @Order(36)
+    void PR36(){
+        PO_LoginView.logIn(driver, "user05@email.com", "user05");
+        //Cogemos los posts de el usuario 2
+        List<Post> posts = postsService.getPostsByUser(usersService.getUserByEmail("user02@email.com"));
+
+        //Intentamos recomendar una publicacion
+        String url = URL + "/post/like/" +  posts.get(0).getId();
+        driver.navigate().to(url);
+
+        PO_LoginView.logOut(driver);
+
+        //Comprobamos que el número de recomendaciones es 0
+        PO_LoginView.logIn(driver, "user02@email.com", "user02");
+        driver.navigate().to(URL + "/post/list");
+        List<WebElement> elements = driver.findElements(By.className("numberOfLikes"));
+        Assertions.assertEquals("Recomendaciones: 0", elements.get(0).getText());
     }
 
     @Test

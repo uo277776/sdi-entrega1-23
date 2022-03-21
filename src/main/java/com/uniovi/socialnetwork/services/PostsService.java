@@ -46,5 +46,7 @@ public class PostsService {
         postsRepository.deleteById(id);
     }
 
-
+    public List<Post> getPostsByUser(User user){
+        return postsRepository.findByUser(user);
+    }
 }

@@ -2,6 +2,8 @@ package com.uniovi.socialnetwork.entities;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="post")
@@ -20,6 +22,9 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "owner")
     private User owner;
+
+    @ManyToMany
+    private Set<User> recommendedBy = new HashSet<>();
 
     public Post(){}
 
@@ -94,6 +99,19 @@ public class Post {
 
     public void addLike(){
         this.likes += 1;
+    }
+
+    public void addRecommended(User user){
+        recommendedBy.add(user);
+    }
+
+    public boolean recommendedByUser(String email){
+        for(User user: recommendedBy){
+            if (user.getEmail().equals(email)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

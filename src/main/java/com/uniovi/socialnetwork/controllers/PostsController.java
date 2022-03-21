@@ -96,14 +96,16 @@ public class PostsController {
     }
 
     @RequestMapping(value="/post/like/{id}")
-    public String likePost(HttpServletRequest request, @PathVariable Long id, Principal principal){
+    public String likePost(@PathVariable Long id, Principal principal){
         Post post = postsService.getPost(id);
-        post.addLike();
-        postsService.addPost(post);
+        if (!post.getUser().getEmail().equals(principal.getName()) && post.getUser().isFriend(principal.getName())
+                && !post.recommendedByUser(principal.getName())){
+            post.addLike();
+            User user = usersService.getUserByEmail(principal.getName());
+            post.addRecommended(user);
+            postsService.addPost(post);
+        }
 
-        User user = usersService.getUserByEmail(principal.getName());
-        user.addRecommendedPost(post);
-
-        return "redirect:" + request.getHeader("Referer");
+        return "redirect:/post/list/" + post.getUser().getEmail();
     }
 }

@@ -41,9 +41,6 @@ public class User {
     @ManyToMany(mappedBy = "friends")
     private Set<User> friends_of = new HashSet<>();
 
-    @Transient
-    private Set<Post> recommendedPosts = new HashSet<>();
-
     public User(String email, String name, String lastName){
         super();
         this.email = email;
@@ -186,10 +183,6 @@ public class User {
     public void deleteRelations(User user){
         friends.remove(user);
         friends_of.remove(user);
-    }
-
-    public void addRecommendedPost(Post post){
-        recommendedPosts.add(post);
     }
 
 }
