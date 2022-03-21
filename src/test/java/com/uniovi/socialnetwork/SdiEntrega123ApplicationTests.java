@@ -311,7 +311,7 @@ class SdiEntrega123ApplicationTests {
         String checkText = "Publicacion para prueba";
         PO_PrivateView.fillAddPostForm(driver, checkText, "Texto de la publicación para prueba");
 
-        PO_PrivateView.goToPage(driver, 2);
+        PO_PrivateView.goToPage(driver, 3);
 
         List<WebElement> elements = PO_View.checkElementBy(driver, "text", "Publicacion para prueba") ;
         Assertions.assertEquals(checkText, elements.get(0).getText());
@@ -349,10 +349,11 @@ class SdiEntrega123ApplicationTests {
         PO_LoginView.logIn(driver, "user01@email.com", "user01");
         driver.navigate().to(URL + "/user/friends");
 
+
         PO_PrivateView.clickById(driver, "name");
 
         List<WebElement> list = driver.findElements(By.name("post"));
-        Assertions.assertEquals(0, list.size());
+        Assertions.assertEquals(5, list.size());
     }
 
     @Test

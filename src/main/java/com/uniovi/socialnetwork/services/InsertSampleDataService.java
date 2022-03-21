@@ -102,6 +102,9 @@ public class InsertSampleDataService {
         invitationsService.addInvitation(user5, user1);
         invitationsService.addInvitation(user4, user1);
 
+        /*
+        Esto lo dejo por orgullo y por sufrimiento
+
         Post p11 = new Post("Publicación 11", "Primera publicación", user1);
         Post p12 = new Post("Publicación 12", "Segunda publicación", user1);
         Post p13 = new Post("Publicación 13", "Tercera publicación", user1);
@@ -256,24 +259,80 @@ public class InsertSampleDataService {
         Post p149 = new Post("Publicación 149", "Novena publicación", user14);
         Post p1410 = new Post("Publicación 1410", "Decima publicación", user14);
 
-        Post p151 = new Post("Publicación 151", "Primera publicación", user14);
-        Post p152 = new Post("Publicación 152", "Segunda publicación", user14);
-        Post p153 = new Post("Publicación 153", "Tercera publicación", user14);
-        Post p154 = new Post("Publicación 154", "Cuarta publicación", user14);
-        Post p155 = new Post("Publicación 145", "Quinta publicación", user14);
-        Post p156 = new Post("Publicación 146", "Sexta publicación", user14);
-        Post p157 = new Post("Publicación 147", "Septima publicación", user14);
-        Post p158 = new Post("Publicación 148", "Octava publicación", user14);
-        Post p159 = new Post("Publicación 149", "Novena publicación", user14);
-        Post p1510 = new Post("Publicación 1410", "Decima publicación", user14);
+        Post p151 = new Post("Publicación 151", "Primera publicación", user15);
+        Post p152 = new Post("Publicación 152", "Segunda publicación", user15);
+        Post p153 = new Post("Publicación 153", "Tercera publicación", user15);
+        Post p154 = new Post("Publicación 154", "Cuarta publicación", user15);
+        Post p155 = new Post("Publicación 155", "Quinta publicación", user15);
+        Post p156 = new Post("Publicación 156", "Sexta publicación", user15);
+        Post p157 = new Post("Publicación 157", "Septima publicación", user15);
+        Post p158 = new Post("Publicación 158", "Octava publicación", user15);
+        Post p159 = new Post("Publicación 159", "Novena publicación", user15);
+        Post p1510 = new Post("Publicación 1510", "Decima publicación", user15);
+        */
 
 
-        postsService.addPost(p11);
-        postsService.addPost(p12);
-        postsService.addPost(p13);
-        postsService.addPost(p14);
-        postsService.addPost(p15);
-        postsService.addPost(p21);
+        for(int i=1;i<=10;i++){
+            postsService.addPost(new Post("Publicación 1"+i,"Texto Publicación",user1));
+        }
+
+        for(int i=1;i<=10;i++){
+            postsService.addPost(new Post("Publicación 2"+i,"Texto Publicación",user2));
+        }
+
+        for(int i=1;i<=10;i++){
+            postsService.addPost(new Post("Publicación 3"+i,"Texto Publicación",user3));
+        }
+
+        for(int i=1;i<=10;i++){
+            postsService.addPost(new Post("Publicación 4"+i,"Texto Publicación",user4));
+        }
+
+        for(int i=1;i<=10;i++){
+            postsService.addPost(new Post("Publicación 5"+i,"Texto Publicación",user5));
+        }
+
+        for(int i=1;i<=10;i++){
+            postsService.addPost(new Post("Publicación 6"+i,"Texto Publicación",user6));
+        }
+
+        for(int i=1;i<=10;i++){
+            postsService.addPost(new Post("Publicación 7"+i,"Texto Publicación",user7));
+        }
+
+        for(int i=1;i<=10;i++){
+            postsService.addPost(new Post("Publicación 8"+i,"Texto Publicación",user8));
+        }
+
+        for(int i=1;i<=10;i++){
+            postsService.addPost(new Post("Publicación 9"+i,"Texto Publicación",user9));
+        }
+
+        for(int i=1;i<=10;i++){
+            postsService.addPost(new Post("Publicación 10"+i,"Texto Publicación",user10));
+        }
+
+        for(int i=1;i<=10;i++){
+            postsService.addPost(new Post("Publicación 11"+i,"Texto Publicación",user11));
+        }
+
+        for(int i=1;i<=10;i++){
+            postsService.addPost(new Post("Publicación 12"+i,"Texto Publicación",user12));
+        }
+
+        for(int i=1;i<=10;i++){
+            postsService.addPost(new Post("Publicación 13"+i,"Texto Publicación",user13));
+        }
+
+        for(int i=1;i<=10;i++){
+            postsService.addPost(new Post("Publicación 14"+i,"Texto Publicación",user14));
+        }
+
+        for(int i=1;i<=10;i++){
+            postsService.addPost(new Post("Publicación 15"+i,"Texto Publicación",user15));
+        }
+
+
 
     }
 }
