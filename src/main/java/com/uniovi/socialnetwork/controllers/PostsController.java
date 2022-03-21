@@ -8,6 +8,7 @@ import com.uniovi.socialnetwork.services.UsersService;
 import com.uniovi.socialnetwork.validators.CreatePostFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,8 +16,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Date;
 
 @Controller
@@ -54,11 +58,10 @@ public class PostsController {
 
             model.addAttribute("postList", posts);
             model.addAttribute("page", posts);
-
             return "/post/list";
         }
         else{
-            return "user/friends";
+            return "redirect:/user/friends";
         }
     }
 
@@ -73,7 +76,6 @@ public class PostsController {
     @RequestMapping(value="/post/add", method = RequestMethod.POST)
     public String setPost(@ModelAttribute Post post, Principal principal, BindingResult result,
                           @RequestParam("image")MultipartFile multipartFile) throws IOException {
-        System.out.println("holaaaa");
         createPostFormValidator.validate(post, result);
         if(result.hasErrors()){
             return "post/add";
@@ -91,5 +93,19 @@ public class PostsController {
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
         }
         return "redirect:/post/list";
+    }
+
+    @RequestMapping(value="/post/like/{id}")
+    public String likePost(@PathVariable Long id, Principal principal){
+        Post post = postsService.getPost(id);
+        if (!post.getUser().getEmail().equals(principal.getName()) && post.getUser().isFriend(principal.getName())
+                && !post.recommendedByUser(principal.getName())){
+            post.addLike();
+            User user = usersService.getUserByEmail(principal.getName());
+            post.addRecommended(user);
+            postsService.addPost(post);
+        }
+
+        return "redirect:/post/list/" + post.getUser().getEmail();
     }
 }

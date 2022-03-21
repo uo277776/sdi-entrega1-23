@@ -1,7 +1,9 @@
 package com.uniovi.socialnetwork;
 
+import com.uniovi.socialnetwork.entities.Post;
 import com.uniovi.socialnetwork.pageobjects.*;
 import com.uniovi.socialnetwork.services.InsertSampleDataService;
+import com.uniovi.socialnetwork.services.PostsService;
 import com.uniovi.socialnetwork.services.UsersService;
 import com.uniovi.socialnetwork.util.SeleniumUtils;
 import org.junit.jupiter.api.*;
@@ -42,6 +44,9 @@ class SdiEntrega123ApplicationTests {
 
     @Autowired
     private UsersService usersService;
+
+    @Autowired
+    private PostsService postsService;
 
     @BeforeEach
     public void setUp(){
@@ -232,7 +237,6 @@ class SdiEntrega123ApplicationTests {
         Assertions.assertEquals(4,list.size());
         SeleniumUtils.textIsNotPresentOnPage(driver,"User02");
 
-
         PO_LoginView.logOut(driver);
     }
 
@@ -339,16 +343,32 @@ class SdiEntrega123ApplicationTests {
         Assertions.assertEquals(5, list.size());
     }
 
+    @Test
+    @Order(27)
+    void PR27(){
+        PO_LoginView.logIn(driver, "user01@email.com", "user01");
+        driver.navigate().to(URL + "/user/friends");
 
+        PO_PrivateView.clickById(driver, "name");
 
+        List<WebElement> list = driver.findElements(By.name("post"));
+        Assertions.assertEquals(0, list.size());
+    }
 
+    @Test
+    @Order(28)
+    void PR28(){
+        PO_LoginView.logIn(driver, "user02@email.com", "user02");
+        driver.navigate().to(URL + "/post/list/user02@email.com");
+
+        //Nos redirige a la vista de amigos
+        Assertions.assertEquals(URL + "/user/friends", driver.getCurrentUrl());
+    }
+
+    @Test
     @Order(29)
     void PR29(){
-        //Comprobamos el mensaje de bienvenida
-        PO_HomeView.checkChangeLanguageText(driver, "welcome.message");
-
-        //Vamos a la pagina de login y comprobamos el mensaje de Identificate
-        driver.navigate().to(URL + "/login");
+        //Comprobamos el mensaje de Identificate
         PO_HomeView.checkChangeLanguageText(driver, "login.message");
 
         //Iniciamos sesion y comprobamos la lista de usarios
@@ -357,7 +377,7 @@ class SdiEntrega123ApplicationTests {
         PO_HomeView.checkChangeLanguageText(driver, "user.list.name");
 
         //Comprobamos la barra de navegacion
-        PO_HomeView.checkChangeLanguageText(driver, "nav.post");
+        PO_HomeView.checkChangeLanguageText(driver, "post.management");
         PO_HomeView.checkChangeLanguageText(driver, "nav.friend");
 
         //Vamos a la lista de amigos y comprobamos el texto
@@ -379,8 +399,48 @@ class SdiEntrega123ApplicationTests {
 
     @Test
     @Order(31)
-    void PR31() {
+    void PR31(){
         //Comprobamos que nos redirige a la vista de log in
+        driver.navigate().to(URL + "/invitation/list");
+        PO_View.checkElementBy(driver, "text", PO_View.getP().getString("login.message", PO_Properties.getSPANISH()));
+        Assertions.assertEquals(URL + "/login", driver.getCurrentUrl());
+    }
+
+    @Test
+    @Order(35)
+    void PR35(){
+        PO_LoginView.logIn(driver, "user01@email.com", "user01");
+        driver.navigate().to(URL + "/post/list/user02@email.com");
+        List<WebElement> list = driver.findElements(By.className("like"));
+        list.get(0).click();
+
+        //Comprobamos que el número de recomendaciones es 1
+        List<WebElement> elements = driver.findElements(By.className("numberOfLikes"));
+        Assertions.assertEquals("Recomendaciones: 1", elements.get(0).getText());
+
+        //El enlace desaparece
+        list = driver.findElements(By.className("like"));
+        Assertions.assertEquals(0, list.size());
+    }
+
+    @Test
+    @Order(36)
+    void PR36(){
+        PO_LoginView.logIn(driver, "user05@email.com", "user05");
+        //Cogemos los posts de el usuario 2
+        List<Post> posts = postsService.getPostsByUser(usersService.getUserByEmail("user02@email.com"));
+
+        //Intentamos recomendar una publicacion
+        String url = URL + "/post/like/" +  posts.get(0).getId();
+        driver.navigate().to(url);
+
+        PO_LoginView.logOut(driver);
+
+        //Comprobamos que el número de recomendaciones es 0
+        PO_LoginView.logIn(driver, "user02@email.com", "user02");
+        driver.navigate().to(URL + "/post/list");
+        List<WebElement> elements = driver.findElements(By.className("numberOfLikes"));
+        Assertions.assertEquals("Recomendaciones: 0", elements.get(0).getText());
     }
 
     @Test
