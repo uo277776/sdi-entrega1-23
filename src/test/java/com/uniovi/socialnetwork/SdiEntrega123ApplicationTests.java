@@ -147,7 +147,7 @@ class SdiEntrega123ApplicationTests {
         List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
         Assertions.assertEquals(checkText, result.get(0).getText());
 
-        Assertions.assertEquals(URL + "/login?logout", driver.getCurrentUrl());
+        Assertions.assertEquals(URL + "/", driver.getCurrentUrl());
     }
 
     @Test
@@ -448,7 +448,7 @@ class SdiEntrega123ApplicationTests {
     void PR44(){
         PO_SignUpView.signUp(driver, "test@email.com", "testUser", "testUser", "123456", "123456");
         driver.navigate().to(URL + "/post/add");
-        PO_PrivateView.fillAddPostFormWithImage(driver, "Publicacion", "Publicacion con imagen", "C:\\Dev\\imagenPrueba.png");
+        PO_PrivateView.fillAddPostFormWithImage(driver, "Publicacion", "Publicacion con imagen", "C:\\Users\\buhos\\Documents\\Universidad\\Cuarto\\Segundo Cuatri\\SDI\\Practicas\\sdi-entrega1-23\\src\\main\\resources\\static\\images\\imagenPrueba.png");
         driver.navigate().to(URL + "/post/list");
 
         List<WebElement> images = driver.findElements(By.className("img-fluid"));
