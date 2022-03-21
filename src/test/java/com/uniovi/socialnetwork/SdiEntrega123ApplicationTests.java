@@ -20,7 +20,7 @@ class SdiEntrega123ApplicationTests {
 
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
-    static String Geckodriver = "C:\\Dev\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\alexf\\Desktop\\UNIVERSIDAD\\Tercer Curso\\Segundo Cuatri\\Sistemas Distribuidos e Internet\\Laboratorio\\Sesion 5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
 
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     // static String Geckodriver = "/Users/USUARIO/selenium/geckodriver-v0.30.0-macos";
@@ -111,6 +111,20 @@ class SdiEntrega123ApplicationTests {
         //We check that there are 3 invitations
         List<WebElement> element = driver.findElements(By.cssSelector("#invitationList tr"));
         Assertions.assertEquals(4, element.size()); //3 invitation rows + the header
+    }
+
+    @Test
+    @Order(1)
+    void PR24(){
+        PO_LoginView.logIn(driver, "user01@email.com", "user01");
+        driver.navigate().to(URL+ "/post/add");
+
+        PO_PrivateView.fillAddPostForm(driver, "Publicacion para prueba", "Texto de la publicación para prueba");
+
+        PO_PrivateView.goToPage(driver, 2);
+
+        List<WebElement> elements = PO_View.checkElementBy(driver, "text", "Publicacion para prueba") ;
+        Assertions.assertEquals("Publicación para prueba", elements.get(0).getText());
     }
 
 }

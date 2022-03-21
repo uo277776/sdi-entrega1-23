@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
+import java.util.List;
 
 @Service
 public class PostsService {
@@ -22,6 +23,10 @@ public class PostsService {
         return posts;
     }
 
+    public Iterable<Post> getPosts(){
+        return postsRepository.findAll();
+    }
+
     public Page<Post> getPostsForUser(Pageable pageable, User user){
         Page<Post> posts = new PageImpl<>(new LinkedList<>());
         posts = postsRepository.findAllByUser(pageable, user);
@@ -29,7 +34,7 @@ public class PostsService {
         return posts;
     }
 
-    public void AddPost(Post post){
+    public void addPost(Post post){
         postsRepository.save(post);
     }
 

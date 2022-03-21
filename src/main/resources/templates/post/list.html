@@ -8,7 +8,27 @@
 <nav th:replace="fragments/nav"/>
 <div class="container">
     <h2 th:text="#{post.list.tittle}">Publicaciones</h2>
-
+    <p th:text="#{post.list.description}">Las publicaciones del usuario son:</p>
+    <button type="button" id="updateButton" class="btn btn-default" th:text="#{post.list.update}">Actualizar</button>
+    <table class="table table-hover" id="tablePosts">
+        <thead>
+        <tr>
+            <th scope="col" th:text="#{post.date}">Fecha</th>
+            <th scope="col" th:text="#{post.tittle}">Titulo</th>
+            <th scope="col" th:text="#{post.text}">Texto</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${postList}">
+            <td scope="row" th:text="${post.date}">23/04/21</td>
+            <td th:text="${post.tittle}">Publicación 1</td>
+            <td th:text="${post.text}">Primera publicación</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
+<footer th:replace="fragments/pagination"/>
+<footer th:replace="fragments/footer"/>
+
 </body>
 </html>

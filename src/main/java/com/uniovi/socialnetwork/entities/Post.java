@@ -21,6 +21,13 @@ public class Post {
 
     public Post(){}
 
+    public Post(String tittle, String text, User owner) {
+        this.tittle = tittle;
+        this.text = text;
+        this.date = new Date();
+        this.owner = owner;
+    }
+
     public Long getId() {
         return id;
     }
@@ -35,5 +42,29 @@ public class Post {
 
     public void setUser(User user) {
         this.owner = user;
+    }
+
+    public String getTittle() {
+        return tittle;
+    }
+
+    public void setTittle(String tittle) {
+        this.tittle = tittle;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

@@ -21,10 +21,10 @@
                 </li>
                 <li id= "marks-menu" class="nav-item dropdown active" sec:authorize="hasRole('STANDARD')">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false"> Gestión de publicaciones </a>
+                       aria-haspopup="true" aria-expanded="false" th:text="#{post.management}">Gestión de publicaciones </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/post/add">Agregar publicación</a>
-                        <a class="dropdown-item" href="/post/list">Ver publicaciones</a>
+                        <a class="dropdown-item" href="/post/add" th:text="#{post.add}">Agregar publicación</a>
+                        <a class="dropdown-item" href="/post/list" th:text="#{post.list}">Ver publicaciones</a>
                     </div>
                 </li>
                 <li id= "professor-menu" class="nav-item dropdown" sec:authorize="hasRole('STANDARD')">

@@ -1,10 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head"/>
 <body>
 
+<!-- Barra de Navegación superior -->
+<nav th:replace="fragments/nav"/>
+
+<div class="container">
+    <h2 th:text="#{post.add.tittle}">Nueva publicación</h2>
+    <form class="form-horizontal" method="post" action="/post/add" th:object="${post}">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="user" th:text="#{post.user}">Usuario</label>
+            <div class="col-sm-10">
+                <p id="user" name="user" th:text="${post.getUser().getEmail()}">Usuario</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="tittle" th:text="#{post.tittle}">Título</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="tittle" name="tittle"
+                placeholder="Introduce el título de la publicación" required="true"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="text" th:text="#{post.text}">Texto</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="text" name="text"
+                       placeholder= "Introduce el texto de la publicación"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary" th:text="#{form.send}">Enviar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<footer th:replace="fragments/footer"/>
 </body>
 </html>
