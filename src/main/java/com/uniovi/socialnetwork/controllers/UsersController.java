@@ -1,32 +1,24 @@
 package com.uniovi.socialnetwork.controllers;
 
-import com.uniovi.socialnetwork.entities.Invitation;
 import com.uniovi.socialnetwork.entities.Post;
 import com.uniovi.socialnetwork.entities.User;
 import com.uniovi.socialnetwork.services.*;
 import com.uniovi.socialnetwork.validators.SignUpFormValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.security.Principal;
-import java.util.*;
 
 @Controller
 public class UsersController {
 
-    private Logger log = LoggerFactory.getLogger(LoggerFactory.class);
 
     @Autowired
     private UsersService usersService;
@@ -43,8 +35,6 @@ public class UsersController {
     @Autowired
     private RolesService rolesService;
 
-    @Autowired
-    private LoggerService loggerService;
 
     @RequestMapping("/user/list")
     public String getList(Model model, Principal principal, Pageable pageable, @RequestParam(value= "", required = false)String searchText){
@@ -56,7 +46,7 @@ public class UsersController {
             model.addAttribute("usersList", usersService.getUsers());
             return "admin/list";
         }else {
-            Page<User> users = new PageImpl<User>(new ArrayList<User>());
+            Page<User> users;
             if(searchText != null && !searchText.isBlank())
                 users = usersService.searchUsersByNameSurnameAndEmail(pageable,searchText,user);
             else
@@ -87,7 +77,7 @@ public class UsersController {
     public String getFriendsList(Model model, Pageable pageable, Principal principal){
         String email = principal.getName();
         User user = usersService.getUserByEmail(email);
-        Page<User> friends = new PageImpl<User>(new ArrayList<>());
+        Page<User> friends ;
         friends = usersService.getFriendsForUser(pageable, user);
         model.addAttribute("friendsList", friends.getContent());
         model.addAttribute("page", friends);
@@ -108,8 +98,7 @@ public class UsersController {
     }
 
     @RequestMapping(value="/user/delete", method= RequestMethod.POST)
-    public String deleteUsers(Model model, @RequestParam(value="user",required = false) String users[],Pageable pageable,
-                              Principal principal){
+    public String deleteUsers(Model model, @RequestParam(value="user",required = false) String users[]){
         for(String id:users){
             User user = usersService.getUser(Long.valueOf(id));
             for(Post post: user.getPosts()){
@@ -117,8 +106,6 @@ public class UsersController {
             }
             usersService.deleteUser(user.getId());
         }
-        String email = principal.getName();
-        User user = usersService.getUserByEmail(email);
         model.addAttribute("usersList",usersService.getUsers());
         return "redirect:/user/list";
     }
@@ -135,20 +122,7 @@ public class UsersController {
         return "redirect:/user/list";
     }
 
-    /*
-    @RequestMapping(value="/user/edit/{id}")
-    public String getEdit(Model model, @PathVariable Long id){
-        User user = usersService.getUser(id);
-        model.addAttribute("user", user);
-        return "user/edit";
-    }
 
-    @RequestMapping(value="/user/edit/{id}", method=RequestMethod.POST)
-    public String setEdit(Model model, @PathVariable Long id, @ModelAttribute User user){
-        usersService.updateUser(user);
-        return "redirect:/user/details/" + id;
-    }
-    */
     @RequestMapping(value="/signup", method= RequestMethod.POST)
     public String signup(@Validated User user, BindingResult result){
         signUpFormValidator.validate(user, result);
@@ -168,19 +142,9 @@ public class UsersController {
     }
 
     @RequestMapping(value="/login", method = RequestMethod.GET)
-    public String login(Model model){
+    public String login(){
         return "login";
     }
 
-    /*
-    @RequestMapping(value={"/home"}, method= RequestMethod.GET)
-    public String home(Model model){
-        log.debug("Accediendo a home");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        User activeUser = usersService.getUserByEmail(email);
-        //model.addAttribute("markList", activeUser.getMarks());
-        return "home";
-    }
-    */
+
 }

@@ -23,7 +23,7 @@
                 <td scope="row" th:text="${invitation.sender.getEmail()}">user01@email.com</td>
                 <td th:text="${invitation.sender.getName()}"> User01</td>
                 <td th:text="${invitation.sender.getLastName()}">User01</td>
-                <td><a th:text="#{invitation.accept}" th:href="${'/friend/accept/'+ invitation.id}">Aceptar</a></td>
+                <td><a th:text="#{invitation.accept}" th:id="${'invitationAccept_'+invitation.sender.name}"th:href="${'/invitation/accept/'+ invitation.id}">Aceptar</a></td>
             </tr>
             </tbody>
         </table>

@@ -22,9 +22,7 @@ public class InvitationsService {
         invitationsRepository.save(new Invitation(sender, receiver));
     }
 
-    public void deleteInvitation(Long id){
-        invitationsRepository.deleteById(id);
-    }
+
 
     public Page<Invitation> getInvitationsForUser(Pageable pageable, User user){
         Page<Invitation> invitations = new PageImpl<Invitation>(new LinkedList<>());

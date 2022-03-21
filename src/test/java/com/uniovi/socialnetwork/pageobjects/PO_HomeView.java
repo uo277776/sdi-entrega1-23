@@ -2,9 +2,7 @@ package com.uniovi.socialnetwork.pageobjects;
 
 import com.uniovi.socialnetwork.util.SeleniumUtils;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
-import java.util.List;
 
 public class PO_HomeView extends PO_NavView{
 

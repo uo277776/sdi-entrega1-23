@@ -1,23 +1,14 @@
 package com.uniovi.socialnetwork;
 
-import com.uniovi.socialnetwork.entities.Log;
 import com.uniovi.socialnetwork.services.LoggerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.util.Set;
 
 @Component
 public class LoggerInterceptor implements HandlerInterceptor {
@@ -25,24 +16,38 @@ public class LoggerInterceptor implements HandlerInterceptor {
     @Autowired
     private LoggerService loggerService;
 
+    private String user;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
 
         String url = request.getRequestURL().toString();
         if(url.contains("http://localhost:8090/user")){
-            loggerService.addLog("PET","UsersController "+request.getMethod()+ " parameters:"+request.getParameterMap());
+            String parametros="parametros: ";
+            Set<String> list = request.getParameterMap().keySet();
+            for(String parametro : list){
+                parametros+=", "+parametro.toString();
+            }
+            loggerService.add("PET","UsersController URL "+request.getRequestURL().toString()+" , method: "+request.getMethod()+" "+parametros);
         }
         else if(url.contains("http://localhost:8090/invitation")){
-            loggerService.addLog("PET","InvitationsController "+request.getMethod()+ " parameters:"+request.getParameterMap());
+            String parametros="parametros: ";
+            Set<String> list = request.getParameterMap().keySet();
+            for(String parametro : list){
+                parametros+=", "+parametro.toString();
+            }
+            loggerService.add("PET","InvitationsController URL "+request.getRequestURL().toString()+" , method: "+request.getMethod()+ " "+parametros);
         }
         else if(url.contains("http://localhost:8090/signup")){
-            loggerService.addLog("PET","UsersController "+request.getMethod()+ " parameters:"+request.getParameterMap());
+            loggerService.add("PET","UsersController URL: "+request.getRequestURL().toString()+" , method: "+request.getMethod()+ " parameters:"+request.getParameterMap().keySet().toString());
         }
         else if(url.contains("http://localhost:8090/logout")){
-            loggerService.addLog("PET","UsersController "+request.getMethod()+ " parameters:"+request.getParameterMap());
+            loggerService.add("PET","UsersController con URL "+request.getRequestURL().toString()+" , method: "+request.getMethod()+ " parameters:"+request.getParameterMap().keySet().toString());
         }
+
         return true;
     }
+
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
@@ -50,9 +55,12 @@ public class LoggerInterceptor implements HandlerInterceptor {
         if(url.contains("http://localhost:8090/login") || url.contentEquals("http://localhost:8090/")){
             String query = request.getQueryString();
             if(query==null)
-                loggerService.addLog("“LOGIN-EX","hola");
+                loggerService.add("“LOGIN-EX",request.getParameter("username"));
             else if(query.equals("error"))
-                loggerService.addLog("“LOGIN-ERR","hola");
+                loggerService.add("LOGIN-ERR","");
+        }
+        if(url.contains("http://localhost:8090/logout")){
+            loggerService.add("LOGOUT","HOLA");
         }
     }
 }

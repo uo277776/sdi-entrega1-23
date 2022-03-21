@@ -8,27 +8,33 @@
 <div class="container" id="main-container">
     <h2>Logs</h2>
     <p>Los logs mas recientes del sistema son:</p>
-    <div class="table-responsive">
-        <table class="table table-hover" id="logsList">
-            <thead>
-            <tr>
-                <th scope="col">Tipo</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Message</th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="log : ${logs}">
-                <td th:text="${log.type}">Nombre del alumno</td>
-                <td th:text="${log.fecha}">71888888X</td>
-                <td th:text="${log.message}">71888888X</td>
-                <th scope="col"></th>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <footer th:replace="fragments/pagination"/>
+    <form class="form-horizontal" method="post" action="/log/delete">
+        <div class="table-responsive" th:fragment="tableUsers" id="tableUsers">
+            <table class="table table-hover" id="logsList">
+                <thead>
+                <tr>
+                    <th scope="col" th:text="#{log.type}">Tipo</th>
+                    <th scope="col" th:text="#{log.date}">Fecha</th>
+                    <th scope="col" th:text="#{log.message}">Message</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="log : ${logs}">
+                    <td th:text="${log.type}">Nombre del alumno</td>
+                    <td th:text="${log.fecha}">71888888X</td>
+                    <td th:text="${log.message}">71888888X</td>
+                    <th scope="col"></th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="btnEliminar" type="submit" class="btn btn-primary" th:text="#{user.list.delete}">Eliminar</button>
+            </div>
+        </div>
+    </form>
 </div>
 <footer th:replace="fragments/footer"/>
 

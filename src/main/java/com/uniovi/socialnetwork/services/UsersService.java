@@ -1,6 +1,5 @@
 package com.uniovi.socialnetwork.services;
 
-import com.uniovi.socialnetwork.entities.Invitation;
 import com.uniovi.socialnetwork.entities.User;
 import com.uniovi.socialnetwork.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UsersService {

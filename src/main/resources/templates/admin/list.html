@@ -31,7 +31,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="user : ${usersList}" class="userRow">
-                    <td><input type="checkbox" th:id="${user.id}" name="user" th:value="${user.id}"/></td>
+                    <td><input type="checkbox" class="checkbox" th:id="${user.name}" name="user" th:value="${user.id}"/></td>
                     <td scope="row" th:text="${user.email}">71888888X</td>
                     <td scope="row" th:text="${user.name}">Nombre del alumno</td>
                     <td scope="row" th:text="${user.lastName}">Apellidos del alumno</td>

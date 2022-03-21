@@ -5,8 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.HashSet;
-import java.util.Set;
+
 
 @Service
 public class InsertSampleDataService {
@@ -92,9 +91,10 @@ public class InsertSampleDataService {
 
         usersService.addUser(admin);
 
-        invitationsService.addInvitation(user6, user1);
-        invitationsService.addInvitation(user5, user1);
-        invitationsService.addInvitation(user4, user1);
+        invitationsService.addInvitation(user10, user5);
+        invitationsService.addInvitation(user7, user5);
+        invitationsService.addInvitation(user12, user7);
+
     }
 }
 

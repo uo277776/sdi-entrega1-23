@@ -56,10 +56,13 @@ public class InvitationsController {
     }
 
     @RequestMapping("/invitation/accept/{id}")
-    public String acceptInvitation(@PathVariable Long id){
+    public String acceptInvitation(@PathVariable Long id,Principal principal){
         Invitation invitation = invitationsService.getInvitation(id);
-        usersService.acceptInvitation(invitation.getReceiver(),invitation.getSender());
-        invitationsService.deleteAllInvitationsBetween(invitation.getReceiver(),invitation.getSender());
-        return "redirect:/invitation/list";
+        if(invitation.getReceiver().getEmail().equals(principal.getName())){
+            usersService.acceptInvitation(invitation.getReceiver(),invitation.getSender());
+            invitationsService.deleteAllInvitationsBetween(invitation.getReceiver(),invitation.getSender());
+            return "redirect:/invitation/list";
+        }
+        return "redirect:/user/list";
     }
 }

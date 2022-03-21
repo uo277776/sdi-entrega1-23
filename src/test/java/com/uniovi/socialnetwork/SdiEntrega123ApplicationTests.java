@@ -143,48 +143,79 @@ class SdiEntrega123ApplicationTests {
     void PR11(){
         PO_LoginView.logIn(driver,"admin@email.com","admin");
 
-        //Entramos en la lista de usuarios
-        List<WebElement> elements = PO_View.checkElementBy(driver,"id","users-menu");
-        elements.get(0).click();
-        //Clickamos la opcion de ver usuarios
-        elements = PO_View.checkElementBy(driver,"class","dropdown-item");
-        elements.get(0).click();
-
         List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
-        Assertions.assertEquals(6,list.size());
+        Assertions.assertEquals(16,list.size());
     }
 
     @Test
     @Order(12)
     void PR12(){
         PO_LoginView.logIn(driver,"admin@email.com","admin");
-        driver.navigate().to(URL + "/user/list");
+
         //Clickamos en el checkbox del usuario 1 y al boton eliminar
-        PO_PrivateView.clickById(driver,"1");
+        PO_PrivateView.clickById(driver,"User01");
         PO_PrivateView.clickById(driver, "btnEliminar");
 
         List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
-        Assertions.assertEquals(4,list.size());
+        Assertions.assertEquals(15,list.size());
+
+        SeleniumUtils.textIsNotPresentOnPage(driver,"User01");
+
+        PO_LoginView.logOut(driver);
+    }
+
+    @Test
+    @Order(13)
+    void PR13(){
+        PO_LoginView.logIn(driver,"admin@email.com","admin");
 
 
+        PO_PrivateView.clickById(driver,"testName");
+        PO_PrivateView.clickById(driver,"btnEliminar");
 
+        List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
+        Assertions.assertEquals(14,list.size());
+
+        SeleniumUtils.textIsNotPresentOnPage(driver,"testName");
+
+        PO_LoginView.logOut(driver);
+    }
+
+
+    @Test
+    @Order(15)
+    void PR15(){
+        PO_LoginView.logIn(driver,"user02@email.com","user02");
+
+        for(int i = 0;i<2;i++){
+            List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
+            Assertions.assertEquals(5,list.size());
+            SeleniumUtils.textIsNotPresentOnPage(driver,"user02");
+            PO_PrivateView.clickById(driver,"siguiente");
+        }
+        List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
+        Assertions.assertEquals(3,list.size());
+        SeleniumUtils.textIsNotPresentOnPage(driver,"User02");
+
+        PO_LoginView.logOut(driver);
 
     }
+
 
     @Test
     @Order(1)
     void PR19(){
         //We log in as user01 and send an invitation to user02
-        PO_LoginView.logIn(driver, "user01@email.com", "user01");
+        PO_LoginView.logIn(driver, "user02@email.com", "user02");
         driver.navigate().to(URL + "/user/list");
-        PO_PrivateView.clickById(driver, "sendInvitation_2");
+        PO_PrivateView.clickById(driver, "sendInvitation_4");
         PO_LoginView.logOut(driver);
 
         //We log in as user02
-        PO_LoginView.logIn(driver, "user02@email.com", "user02");
+        PO_LoginView.logIn(driver, "user04@email.com", "user04");
         driver.navigate().to(URL + "/invitation/list");
 
-        List<WebElement> element = driver.findElements(By.id("invitation_User01")); //We check if we have an invitation from User01.
+        List<WebElement> element = driver.findElements(By.id("invitation_User02")); //We check if we have an invitation from User01.
         Assertions.assertEquals(1, element.size());
     }
 
@@ -192,12 +223,12 @@ class SdiEntrega123ApplicationTests {
     @Order(2)
     void PR20(){
         //We log in as user01 and send an invitation to user02
-        PO_LoginView.logIn(driver, "user01@email.com", "user01");
+        PO_LoginView.logIn(driver, "user03@email.com", "user03");
         driver.navigate().to(URL + "/user/list");
-        PO_PrivateView.clickById(driver, "sendInvitation_2");
+        PO_PrivateView.clickById(driver, "sendInvitation_5");
 
         //We check that the button disappear and we can't send an invitation to user02
-        List<WebElement> element = driver.findElements(By.id("sendInvitation_2"));
+        List<WebElement> element = driver.findElements(By.id("sendInvitation_5"));
         Assertions.assertEquals(0, element.size());
     }
 
@@ -205,12 +236,31 @@ class SdiEntrega123ApplicationTests {
     @Order(3)
     void PR21(){
         //We log in as user01 go to the invitations list
-        PO_LoginView.logIn(driver, "user01@email.com", "user01");
+        PO_LoginView.logIn(driver, "user05@email.com", "user05");
         driver.navigate().to(URL + "/invitation/list");
 
         //We check that there are 3 invitations
         List<WebElement> element = driver.findElements(By.cssSelector("#invitationList tr"));
         Assertions.assertEquals(4, element.size()); //3 invitation rows + the header
+    }
+
+    @Test
+    @Order(22)
+    void PR22(){
+        PO_LoginView.logIn(driver, "user05@email.com", "user05");
+        driver.navigate().to(URL + "/invitation/list");
+
+        PO_PrivateView.clickById(driver,"invitationAccept_User10");
+
+        //We check that there are 3 invitations
+        List<WebElement> element = driver.findElements(By.cssSelector("#invitationList tr"));
+        Assertions.assertEquals(3, element.size()); //3 invitation rows + the header
+
+        SeleniumUtils.textIsNotPresentOnPage(driver,"User10");
+
+
+
+
     }
 
 }
