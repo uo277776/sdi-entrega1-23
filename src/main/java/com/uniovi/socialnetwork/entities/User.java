@@ -30,7 +30,7 @@ public class User {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private Set<Post> posts;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "Friendship",
             joinColumns = {@JoinColumn(name = "USER_ID")},

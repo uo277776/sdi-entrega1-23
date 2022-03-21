@@ -35,7 +35,7 @@
                     <th scope="col"></th>
                     <td scope="row" th:text="${user.name}">Nombre del alumno</td>
                     <td scope="row" th:text="${user.email}">71888888X</td>
-                    <td scope="row"><a sec:authorize="hasRole('STANDARD')"  th:id="${'sendInvitation_' + user.id}" th:if="${!user.receivedInvitationFromUser(#authentication.getName())}" th:href="${'/invitation/send/' + user.id}">Agregar amigo</a></td>
+                    <td scope="row"><a sec:authorize="hasRole('STANDARD')"  th:id="${'send_' + user.email}" th:if="${!user.receivedInvitationFromUser(#authentication.getName())}" th:href="${'/invitation/send/' + user.id}">Agregar amigo</a></td>
                     <th scope="col"></th>
                     <th scope="col"></th>
                 </tr>
