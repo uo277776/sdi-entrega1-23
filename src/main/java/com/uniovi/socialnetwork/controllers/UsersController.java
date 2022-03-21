@@ -158,7 +158,7 @@ public class UsersController {
         user.setRole(rolesService.getRoles()[0]);
         usersService.addUser(user);
         securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
-        return "redirect:/user/list";
+        return "redirect:user/list";
     }
 
     @RequestMapping(value="/signup", method=RequestMethod.GET)
@@ -168,7 +168,10 @@ public class UsersController {
     }
 
     @RequestMapping(value="/login", method = RequestMethod.GET)
-    public String login(Model model){
+    public String login(Model model, String error){
+        if (error != null){
+            model.addAttribute("error", "Error.login");
+        }
         return "login";
     }
 

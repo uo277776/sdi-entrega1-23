@@ -72,6 +72,8 @@ public class UsersService {
         usersRepository.deleteById(id);
     }
 
+    public void deleteAll(){usersRepository.deleteAll();}
+
     public Page<User> searchUsersByNameSurnameAndEmail (Pageable pageable, String searchText, User user) {
         Page<User> users = new PageImpl<User>(new ArrayList<User>());
         searchText = "%"+searchText+"%";

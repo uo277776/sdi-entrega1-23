@@ -6,15 +6,15 @@
 <nav th:replace="fragments/nav"></nav>
 
 <div class="container" id="main-container">
-    <h2>Invitaciones</h2>
-    <p>Las invitaciones que tiene actualmente son:</p>
+    <h2 th:text="#{invitation.list.title}">Invitaciones</h2>
+    <p th:text="#{invitation.list.description}">Las invitaciones que tiene actualmente son:</p>
     <div class="table-responsive">
         <table class="table table-hover" id="invitationList">
             <thead>
             <tr>
-                <th scope="col">Email</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellidos</th>
+                <th scope="col" th:text="#{user.list.email}">Correo</th>
+                <th scope="col" th:text="#{user.list.name}">Nombre</th>
+                <th scope="col" th:text="#{user.list.lastName}">Apellidos</th>
                 <th scope="col"></th>
             </tr>
             </thead>
@@ -23,7 +23,7 @@
                 <td scope="row" th:text="${invitation.sender.getEmail()}">user01@email.com</td>
                 <td th:text="${invitation.sender.getName()}"> User01</td>
                 <td th:text="${invitation.sender.getLastName()}">User01</td>
-                <td><a th:href="${'/invitation/accept/'+ invitation.id}">Aceptar</a></td>
+                <td><a th:text="#{invitation.accept}" th:href="${'/friend/accept/'+ invitation.id}">Aceptar</a></td>
             </tr>
             </tbody>
         </table>

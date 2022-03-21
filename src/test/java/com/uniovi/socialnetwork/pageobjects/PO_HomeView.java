@@ -8,26 +8,22 @@ import java.util.List;
 
 public class PO_HomeView extends PO_NavView{
 
-    static public void checkWelcomeToPage(WebDriver driver, int language){
-        SeleniumUtils.waitLoadElementsBy(driver,"text",p.getString("welcome.message",language),getTimeout());
-    }
-
-    static public List<WebElement> getWelcomeMessageText(WebDriver driver, int language){
-        return SeleniumUtils.waitLoadElementsBy(driver,"text",p.getString("welcome.message",language),getTimeout());
-    }
-
-    static public void checkChangeLanguage(WebDriver driver,String textLanguage1,String textLanguage,int locale1,int locale2){
-        //Esperamos que se cargue el saludo de bienvenida en español
-        PO_HomeView.checkWelcomeToPage(driver,locale1);
+    static public void checkChangeLanguageText(WebDriver driver, String textKey){
+        //Comprobmaos el texto en español
+        PO_HomeView.checkLanguage(driver, textKey, PO_Properties.getSPANISH());
         //Cambiamos de idioma
-        PO_HomeView.changeLanguage(driver,textLanguage);
-        //Comprobamos que el texto haya cambiado
-        PO_HomeView.checkWelcomeToPage(driver,locale2);
+        PO_HomeView.changeLanguage(driver, "btnEnglish");
+        //Comprobamos que haya cambiado a ingles
+        PO_HomeView.checkLanguage(driver, textKey, PO_Properties.getENGLISH());
         //Volvemos a Español
-        PO_HomeView.changeLanguage(driver,textLanguage1);
-        //Esperamos a que se cargue el saludo de bienvenida en Español
-        PO_HomeView.checkWelcomeToPage(driver,locale1);
+        PO_HomeView.changeLanguage(driver, "btnSpanish");
+        //Comprobamos que haya cambiado a español
+        PO_HomeView.checkLanguage(driver, textKey, PO_Properties.getSPANISH());
 
+    }
+
+    static public void checkLanguage(WebDriver driver, String textKey, int language){
+        SeleniumUtils.waitLoadElementsBy(driver, "text", p.getString(textKey, language), getTimeout());
     }
 
 }

@@ -6,21 +6,21 @@
 <nav th:replace="fragments/nav"/>
 
 <div class="container" id="main-container">
-  <h2>Amigos</h2>
-  <p>Sus amigos son:</p>
+  <h2 th:text="#{friend.list.title}">Amigos</h2>
+  <p th:text="#{friend.list.description}">Sus amigos son:</p>
   <div class="table-responsive">
     <table class="table table-hover" id="friendsList">
       <thead>
       <tr>
-        <th scope="col">Nombre</th>
-        <th scope="col">Apellidos</th>
-        <th scope="col">Email</th>
+        <th scope="col" th:text="#{user.list.name}">Nombre</th>
+        <th scope="col" th:text="#{user.list.lastName}">Apellidos</th>
+        <th scope="col" th:text="#{user.list.email}">Correo</th>
         <th scope="col"></th>
       </tr>
       </thead>
       <tbody>
       <tr th:each="user : ${friendsList}">
-        <td th:text="${user.name}">Nombre del alumno</td>
+        <td th:text="${user.name}"  th:href="${'/post/list/' + user.getEmail()}">Nombre del alumno</td>
         <td th:text="${user.lastName}">71888888X</td>
         <td th:text="${user.email}">71888888X</td>
         <th scope="col"></th>
