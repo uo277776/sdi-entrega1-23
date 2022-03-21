@@ -1,19 +1,33 @@
 package com.uniovi.socialnetwork.entities;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
+@Table(name="post")
 public class Post {
 
      @Id
      @GeneratedValue
-    private Long id;
+     private Long id;
+
+     private String tittle;
+     private String text;
+     private Date date;
+     private boolean hasImage;
 
     @ManyToOne
     @JoinColumn(name = "owner")
     private User owner;
 
     public Post(){}
+
+    public Post(String tittle, String text, User owner) {
+        this.tittle = tittle;
+        this.text = text;
+        this.date = new Date();
+        this.owner = owner;
+    }
 
     public Long getId() {
         return id;
@@ -29,5 +43,44 @@ public class Post {
 
     public void setUser(User user) {
         this.owner = user;
+    }
+
+    public String getTittle() {
+        return tittle;
+    }
+
+    public void setTittle(String tittle) {
+        this.tittle = tittle;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public boolean hasImage(){
+        return this.hasImage;
+    }
+
+    public void setHasImage(boolean image){
+        this.hasImage = image;
+    }
+
+    public String getImagePath(){
+        if (hasImage){
+            return "/images/postPhotos/" + id;
+        }
+        return null;
     }
 }

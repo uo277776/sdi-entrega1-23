@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
-
 @Service
 public class InsertSampleDataService {
     @Autowired
@@ -17,6 +16,9 @@ public class InsertSampleDataService {
 
     @Autowired
     private InvitationsService invitationsService;
+
+    @Autowired
+    private PostsService postsService;
 
     @PostConstruct
     public void init() {
@@ -91,9 +93,27 @@ public class InsertSampleDataService {
 
         usersService.addUser(admin);
 
-        invitationsService.addInvitation(user10, user5);
-        invitationsService.addInvitation(user7, user5);
-        invitationsService.addInvitation(user12, user7);
+        //amistades
+        user1.addFriend(user2);
+        user1.addFriend(user3);
+
+        invitationsService.addInvitation(user6, user1);
+        invitationsService.addInvitation(user5, user1);
+        invitationsService.addInvitation(user4, user1);
+
+        Post p11 = new Post("Publicación 1", "Primera publicación", user1);
+        Post p12 = new Post("Publicación 2", "Segunda publicación", user1);
+        Post p13 = new Post("Publicación 3", "Tercera publicación", user1);
+        Post p14 = new Post("Publicación 4", "Cuarta publicación", user1);
+        Post p15 = new Post("Publicación 5", "Quinta publicación", user1);
+        Post p21 = new Post("Pub1", "Pub del user2", user2);
+
+        postsService.addPost(p11);
+        postsService.addPost(p12);
+        postsService.addPost(p13);
+        postsService.addPost(p14);
+        postsService.addPost(p15);
+        postsService.addPost(p21);
 
     }
 }

@@ -1,0 +1,26 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="fragments/head"/>
+<body>
+
+<!-- Barra de Navegación superior -->
+<nav th:replace="fragments/nav"/>
+<div class="container">
+    <h2 th:text="#{post.list.tittle}">Publicaciones</h2>
+    <p th:text="#{post.list.description}">Las publicaciones del usuario son:</p>
+    <div class="card post p-3 m-2" th:each="post: ${postList}" name="post">
+        <div class="card body">
+            <h3 class="card-title" th:text="${post.tittle}"></h3>
+            <p class="card-text" th:text="${post.text}"></p>
+            <img class="img-fluid" th:if="${post.hasImage()}" th:src="${post.getImagePath()}"/>
+            <p class="card-text" th:text="${post.date}"></p>
+        </div>
+    </div>
+</div>
+<br>
+<footer th:replace="fragments/pagination"/>
+<footer th:replace="fragments/footer"/>
+
+</body>
+</html>
