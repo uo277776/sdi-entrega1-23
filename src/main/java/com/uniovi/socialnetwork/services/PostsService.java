@@ -34,6 +34,10 @@ public class PostsService {
         return posts;
     }
 
+    public Post getPost(Long id){
+        return postsRepository.findById(id).get();
+    }
+
     public void addPost(Post post){
         postsRepository.save(post);
     }

@@ -14,6 +14,7 @@ public class Post {
      private String tittle;
      private String text;
      private Date date;
+     private int likes;
      private boolean hasImage;
 
     @ManyToOne
@@ -83,4 +84,16 @@ public class Post {
         }
         return null;
     }
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public void addLike(){
+        this.likes += 1;
+    }
+
 }
