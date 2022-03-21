@@ -20,9 +20,9 @@
                         <a class="dropdown-item" href="/post/list" th:text="#{post.list}">Ver publicaciones</a>
                     </div>
                 </li>
-                <li id= "professor-menu" class="nav-item dropdown" sec:authorize="hasRole('STANDARD')">
-                    <a class="nav-link dropdown-toggle" href="#" id="profesorDropdown" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false"> Gestión de amigos
+                <li id= "friends-menu" class="nav-item dropdown" sec:authorize="hasRole('STANDARD')">
+                    <a class="nav-link dropdown-toggle" href="#" id="friendDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" th:text="#{nav.friend}"> Gestión de amigos
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/user/friends" th:text="#{nav.friend.list}">Ver amigos</a>

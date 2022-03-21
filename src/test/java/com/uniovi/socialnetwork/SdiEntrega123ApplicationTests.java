@@ -20,8 +20,8 @@ class SdiEntrega123ApplicationTests {
 
 
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-    static String Geckodriver = "C:\\Users\\alexf\\Desktop\\UNIVERSIDAD\\Tercer Curso\\Segundo Cuatri\\Sistemas Distribuidos e Internet\\Laboratorio\\Sesion 5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    //static String Geckodriver = "C:\\Dev\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\alexf\\Desktop\\UNIVERSIDAD\\Tercer Curso\\Segundo Cuatri\\Sistemas Distribuidos e Internet\\Laboratorio\\Sesion 5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Dev\\geckodriver-v0.30.0-win64.exe";
 
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     // static String Geckodriver = "/Users/USUARIO/selenium/geckodriver-v0.30.0-macos";
@@ -281,11 +281,7 @@ class SdiEntrega123ApplicationTests {
     @Test
     @Order(29)
     void PR29(){
-        //Comprobamos el mensaje de bienvenida
-        PO_HomeView.checkChangeLanguageText(driver, "welcome.message");
-
-        //Vamos a la pagina de login y comprobamos el mensaje de Identificate
-        driver.navigate().to(URL + "/login");
+        //Comprobamos el mensaje de Identificate
         PO_HomeView.checkChangeLanguageText(driver, "login.message");
 
         //Iniciamos sesion y comprobamos la lista de usarios
@@ -294,7 +290,7 @@ class SdiEntrega123ApplicationTests {
         PO_HomeView.checkChangeLanguageText(driver, "user.list.name");
 
         //Comprobamos la barra de navegacion
-        PO_HomeView.checkChangeLanguageText(driver, "nav.post");
+        PO_HomeView.checkChangeLanguageText(driver, "post.management");
         PO_HomeView.checkChangeLanguageText(driver, "nav.friend");
 
         //Vamos a la lista de amigos y comprobamos el texto
