@@ -1,5 +1,6 @@
 package com.uniovi.socialnetwork;
 
+import com.uniovi.socialnetwork.entities.User;
 import com.uniovi.socialnetwork.pageobjects.*;
 import com.uniovi.socialnetwork.services.InsertSampleDataService;
 import com.uniovi.socialnetwork.services.UsersService;
@@ -20,8 +21,8 @@ class SdiEntrega123ApplicationTests {
 
 
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-    //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
-    static String Geckodriver = "C:\\Users\\alexf\\Desktop\\UNIVERSIDAD\\Tercer Curso\\Segundo Cuatri\\Sistemas Distribuidos e Internet\\Laboratorio\\Sesion 5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Dev\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\alexf\\Desktop\\UNIVERSIDAD\\Tercer Curso\\Segundo Cuatri\\Sistemas Distribuidos e Internet\\Laboratorio\\Sesion 5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
 
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     // static String Geckodriver = "/Users/USUARIO/selenium/geckodriver-v0.30.0-macos";
@@ -225,6 +226,47 @@ class SdiEntrega123ApplicationTests {
     }
 
     @Test
+    @Order(24)
+    void PR24(){
+        PO_LoginView.logIn(driver, "user01@email.com", "user01");
+        driver.navigate().to(URL+ "/post/add");
+
+        String checkText = "Publicacion para prueba";
+        PO_PrivateView.fillAddPostForm(driver, checkText, "Texto de la publicación para prueba");
+
+        PO_PrivateView.goToPage(driver, 2);
+
+        List<WebElement> elements = PO_View.checkElementBy(driver, "text", "Publicacion para prueba") ;
+        Assertions.assertEquals(checkText, elements.get(0).getText());
+    }
+
+    @Test
+    @Order(25)
+    void PR25(){
+        PO_LoginView.logIn(driver, "user01@email.com", "user01");
+        driver.navigate().to(URL+ "/post/add");
+
+        PO_PrivateView.fillAddPostForm(driver, "     ", "Texto de la publicación para prueba");
+
+        List<WebElement> result =  PO_SignUpView.checkElementByKey(driver, "Error.post.add.tittle",
+                PO_Properties.getSPANISH() );
+
+        String checkText = PO_HomeView.getP().getString("Error.post.add.tittle",
+                PO_Properties.getSPANISH());
+        Assertions.assertEquals(checkText , result.get(0).getText());
+    }
+
+    @Test
+    @Order(26)
+    void PR26(){
+        PO_LoginView.logIn(driver, "user01@email.com", "user01");
+        driver.navigate().to(URL+ "/post/list");
+
+        List<WebElement> list = driver.findElements(By.name("post"));
+        Assertions.assertEquals(5, list.size());
+    }
+
+    @Test
     @Order(29)
     void PR29(){
         //Comprobamos el mensaje de bienvenida
@@ -270,43 +312,29 @@ class SdiEntrega123ApplicationTests {
     }
 
     @Test
-    @Order(1)
-    void PR24(){
-        PO_LoginView.logIn(driver, "user01@email.com", "user01");
-        driver.navigate().to(URL+ "/post/add");
+    @Order(44)
+    void PR44(){
+        PO_SignUpView.signUp(driver, "test@email.com", "testUser", "testUser", "123456", "123456");
+        driver.navigate().to(URL + "/post/add");
+        PO_PrivateView.fillAddPostFormWithImage(driver, "Publicacion", "Publicacion con imagen", "C:\\Dev\\imagenPrueba.png");
+        driver.navigate().to(URL + "/post/list");
 
-        String checkText = "Publicacion para prueba";
-        PO_PrivateView.fillAddPostForm(driver, checkText, "Texto de la publicación para prueba");
-
-        PO_PrivateView.goToPage(driver, 2);
-
-        List<WebElement> elements = PO_View.checkElementBy(driver, "text", "Publicacion para prueba") ;
-        Assertions.assertEquals(checkText, elements.get(0).getText());
+        List<WebElement> images = driver.findElements(By.className("img-fluid"));
+        Assertions.assertEquals(1, images.size());
     }
 
     @Test
-    @Order(2)
-    void PR25(){
-        PO_LoginView.logIn(driver, "user01@email.com", "user01");
-        driver.navigate().to(URL+ "/post/add");
+    @Order(45)
+    void PR45(){
+        PO_SignUpView.signUp(driver, "test@email.com", "testUser", "testUser", "123456", "123456");
+        driver.navigate().to(URL + "/post/add");
+        PO_PrivateView.fillAddPostForm(driver, "Publicacion", "Publicacion sin imagen");
+        driver.navigate().to(URL + "/post/list");
 
-        PO_PrivateView.fillAddPostForm(driver, "     ", "Texto de la publicación para prueba");
-
-        List<WebElement> result =  PO_SignUpView.checkElementByKey(driver, "Error.post.add.tittle",
-                PO_Properties.getSPANISH() );
-
-        String checkText = PO_HomeView.getP().getString("Error.post.add.tittle",
-                PO_Properties.getSPANISH());
-        Assertions.assertEquals(checkText , result.get(0).getText());
+        List<WebElement> images = driver.findElements(By.tagName("img-fluid"));
+        Assertions.assertEquals(0, images.size());
     }
 
-    @Test
-    @Order(1)
-    void PR26(){
-        PO_LoginView.logIn(driver, "user01@email.com", "user01");
-        driver.navigate().to(URL+ "/post/list");
 
-        PO_PrivateView.contarFilas(driver, 5);
-    }
 
 }
