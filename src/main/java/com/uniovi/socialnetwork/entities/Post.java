@@ -14,6 +14,7 @@ public class Post {
      private String tittle;
      private String text;
      private Date date;
+     private boolean hasImage;
 
     @ManyToOne
     @JoinColumn(name = "owner")
@@ -66,5 +67,20 @@ public class Post {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public boolean hasImage(){
+        return this.hasImage;
+    }
+
+    public void setHasImage(boolean image){
+        this.hasImage = image;
+    }
+
+    public String getImagePath(){
+        if (hasImage){
+            return "/images/postPhotos/" + id;
+        }
+        return null;
     }
 }

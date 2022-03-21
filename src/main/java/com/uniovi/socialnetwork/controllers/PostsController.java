@@ -1,5 +1,6 @@
 package com.uniovi.socialnetwork.controllers;
 
+import com.uniovi.socialnetwork.FileUploadUtil;
 import com.uniovi.socialnetwork.entities.Post;
 import com.uniovi.socialnetwork.entities.User;
 import com.uniovi.socialnetwork.services.PostsService;
@@ -12,8 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Date;
 
@@ -69,15 +72,25 @@ public class PostsController {
     }
 
     @RequestMapping(value="/post/add", method = RequestMethod.POST)
-    public String setPost(@ModelAttribute Post post, Principal principal, BindingResult result){
+    public String setPost(@ModelAttribute Post post, Principal principal, BindingResult result,
+                          @RequestParam("image")MultipartFile multipartFile) throws IOException {
+        System.out.println("holaaaa");
         createPostFormValidator.validate(post, result);
         if(result.hasErrors()){
             return "post/add";
         }
         post.setDate(new Date());
         post.setUser(usersService.getUserByEmail(principal.getName()));
-        System.out.println(post.getUser());
+        post.setHasImage(!multipartFile.isEmpty());
+
         postsService.addPost(post);
+
+        //Once the post in save we can store the image with the correct name because we have the post's id.
+        if (!multipartFile.isEmpty()){
+            String fileName = post.getId().toString();
+            String uploadDir = "src/main/resources/static/images/postPhotos";
+            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        }
         return "redirect:/post/list";
     }
 }
