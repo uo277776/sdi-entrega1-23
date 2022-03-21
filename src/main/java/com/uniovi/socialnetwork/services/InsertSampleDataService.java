@@ -94,9 +94,7 @@ public class InsertSampleDataService {
 
         usersService.addUser(admin);
 
-        //amistades
-        user1.addFriend(user2);
-        user1.addFriend(user3);
+
 
         invitationsService.addInvitation(user6, user1);
         invitationsService.addInvitation(user5, user1);

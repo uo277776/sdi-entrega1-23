@@ -59,7 +59,7 @@ public class PostsController {
             return "/post/list";
         }
         else{
-            return "user/friends";
+            return "/user/friends";
         }
     }
 
@@ -74,7 +74,6 @@ public class PostsController {
     @RequestMapping(value="/post/add", method = RequestMethod.POST)
     public String setPost(@ModelAttribute Post post, Principal principal, BindingResult result,
                           @RequestParam("image")MultipartFile multipartFile) throws IOException {
-        System.out.println("holaaaa");
         createPostFormValidator.validate(post, result);
         if(result.hasErrors()){
             return "post/add";
