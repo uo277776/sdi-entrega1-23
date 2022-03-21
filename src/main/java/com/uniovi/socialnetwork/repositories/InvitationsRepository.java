@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 public interface InvitationsRepository extends CrudRepository<Invitation, Long> {
+
     @Query("SELECT i FROM Invitation i WHERE i.receiver = ?1 ORDER BY i.id ASC")
     Page<Invitation> findAllByUser(Pageable pageable, User user);
 }

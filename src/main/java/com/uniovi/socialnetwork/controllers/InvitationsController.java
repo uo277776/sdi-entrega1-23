@@ -50,4 +50,12 @@ public class InvitationsController {
         model.addAttribute("page", invitations);
         return "/invitation/list";
     }
+
+    @RequestMapping("/invitation/accept/{id}")
+    public String acceptInvitation(@PathVariable Long id){
+        Invitation invitation = invitationsService.getInvitation(id);
+        usersService.acceptInvitation(invitation.getReceiver(),invitation.getSender());
+        invitationsService.deleteInvitation(id);
+        return "redirect:/invitation/list";
+    }
 }

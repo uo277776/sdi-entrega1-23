@@ -46,6 +46,7 @@ public class InsertSampleDataService {
         admin.setPassword("admin");
         admin.setRole(rolesService.getRoles()[1]);
 
+
         usersService.addUser(user1);
         usersService.addUser(user2);
         usersService.addUser(user3);
@@ -54,6 +55,10 @@ public class InsertSampleDataService {
         usersService.addUser(user6);
 
         usersService.addUser(admin);
+
+        //amistades
+        user1.addFriend(user2);
+        user1.addFriend(user3);
 
         invitationsService.addInvitation(user6, user1);
         invitationsService.addInvitation(user5, user1);

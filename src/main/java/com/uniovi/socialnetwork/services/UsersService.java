@@ -1,8 +1,12 @@
 package com.uniovi.socialnetwork.services;
 
+import com.uniovi.socialnetwork.entities.Invitation;
 import com.uniovi.socialnetwork.entities.User;
 import com.uniovi.socialnetwork.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +28,13 @@ public class UsersService {
 
     }
 
+    public Page<User> getStandardUsers(Pageable pageable, User user){
+        Page<User> users = usersRepository.findStandardUsers(pageable,user);
+        return users;
+    }
+
     public List<User> getUsers(){
-        List<User> users = new ArrayList<>();
+        List<User> users = new ArrayList<User>();
         usersRepository.findUsers().forEach(users::add);
         return users;
     }
@@ -47,6 +56,11 @@ public class UsersService {
         usersRepository.save(originalUser);
     }
 
+    public void acceptInvitation(User user1,User user2){
+        user1.addFriend(user2);
+        user2.addFriend(user1);
+    }
+
     public User getUserByEmail(String email){
         return usersRepository.findByEmail(email);
     }
@@ -55,4 +69,18 @@ public class UsersService {
         usersRepository.deleteById(id);
     }
 
+    public void deleteAll(){usersRepository.deleteAll();}
+
+    public Page<User> searchUsersByNameSurnameAndEmail (Pageable pageable, String searchText, User user) {
+        Page<User> users = new PageImpl<User>(new ArrayList<User>());
+        searchText = "%"+searchText+"%";
+        users = usersRepository.searchUsersByNameSurnameAndEmail(pageable, searchText, user);
+        return users;
+    }
+
+    public Page<User> getFriendsForUser(Pageable pageable, User user) {
+        Page<User> users = new PageImpl<User>(new ArrayList<User>());
+        users = usersRepository.getFriendsForUser(pageable, user);
+        return users;
+    }
 }
