@@ -21,10 +21,10 @@ import java.util.List;
 class SdiEntrega123ApplicationTests {
 
 
-    //static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-    //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
-    static String PathFirefox = "C:\\Users\\buhos\\AppData\\Local\\Mozilla Firefox\\firefox.exe";
-    static String Geckodriver = "C:\\Users\\buhos\\Documents\\Universidad\\Cuarto\\Segundo Cuatri\\SDI\\Utilidad\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+    static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
+    //static String PathFirefox = "C:\\Users\\buhos\\AppData\\Local\\Mozilla Firefox\\firefox.exe";
+    //static String Geckodriver = "C:\\Users\\buhos\\Documents\\Universidad\\Cuarto\\Segundo Cuatri\\SDI\\Utilidad\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Dev\\geckodriver-v0.30.0-win64.exe";
 
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
@@ -350,7 +350,7 @@ class SdiEntrega123ApplicationTests {
         driver.navigate().to(URL + "/user/friends");
 
 
-        PO_PrivateView.clickById(driver, "name");
+        PO_PrivateView.clickById(driver, "User03");
 
         List<WebElement> list = driver.findElements(By.name("post"));
         Assertions.assertEquals(5, list.size());
@@ -420,7 +420,7 @@ class SdiEntrega123ApplicationTests {
         Assertions.assertEquals("Recomendaciones: 1", elements.get(0).getText());
 
         //El enlace desaparece
-        list = driver.findElements(By.className("like"));
+        list = driver.findElements(By.id("Publicación 21"));
         Assertions.assertEquals(0, list.size());
     }
 
