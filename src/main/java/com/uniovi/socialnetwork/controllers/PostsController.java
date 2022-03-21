@@ -11,10 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
@@ -45,7 +42,25 @@ public class PostsController {
         return "/post/list";
     }
 
-    @RequestMapping(value="/post/add")
+    @RequestMapping("post/list/{email}")
+    public String getListFriend(Model model, Pageable pageable, Principal principal, @PathVariable String email){
+        User user = usersService.getUserByEmail(email);
+        User princ = usersService.getUserByEmail(principal.getName());
+
+        if(princ.getFriends().contains(user)){
+            Page<Post> posts = postsService.getPostsForUser(pageable, user);
+
+            model.addAttribute("postList", posts);
+            model.addAttribute("page", posts);
+
+            return "/post/list";
+        }
+        else{
+            return "user/friends";
+        }
+    }
+
+    @RequestMapping(value="/post/add", method = RequestMethod.GET)
     public String getPost(Model model, Principal principal){
         Post post = new Post();
         post.setUser(usersService.getUserByEmail(principal.getName()));

@@ -10,16 +10,11 @@
     <h2 th:text="#{post.add.tittle}">Nueva publicación</h2>
     <form class="form-horizontal" method="post" action="/post/add" th:object="${post}">
         <div class="form-group">
-            <label class="control-label col-sm-2" for="user" th:text="#{post.user}">Usuario</label>
-            <div class="col-sm-10">
-                <p id="user" name="user" th:text="${post.getUser().getEmail()}">Usuario</p>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="control-label col-sm-2" for="tittle" th:text="#{post.tittle}">Título</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="tittle" name="tittle"
-                placeholder="Introduce el título de la publicación" required="true"/>
+                placeholder="Introduce el título de la publicación"/>
+                <span class="text-danger" th:if="${#fields.hasErrors('tittle')}" th:errors="*{tittle}"></span>
             </div>
         </div>
         <div class="form-group">

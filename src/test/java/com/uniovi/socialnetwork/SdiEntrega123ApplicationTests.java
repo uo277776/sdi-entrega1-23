@@ -275,12 +275,38 @@ class SdiEntrega123ApplicationTests {
         PO_LoginView.logIn(driver, "user01@email.com", "user01");
         driver.navigate().to(URL+ "/post/add");
 
-        PO_PrivateView.fillAddPostForm(driver, "Publicacion para prueba", "Texto de la publicación para prueba");
+        String checkText = "Publicacion para prueba";
+        PO_PrivateView.fillAddPostForm(driver, checkText, "Texto de la publicación para prueba");
 
         PO_PrivateView.goToPage(driver, 2);
 
         List<WebElement> elements = PO_View.checkElementBy(driver, "text", "Publicacion para prueba") ;
-        Assertions.assertEquals("Publicación para prueba", elements.get(0).getText());
+        Assertions.assertEquals(checkText, elements.get(0).getText());
+    }
+
+    @Test
+    @Order(2)
+    void PR25(){
+        PO_LoginView.logIn(driver, "user01@email.com", "user01");
+        driver.navigate().to(URL+ "/post/add");
+
+        PO_PrivateView.fillAddPostForm(driver, "     ", "Texto de la publicación para prueba");
+
+        List<WebElement> result =  PO_SignUpView.checkElementByKey(driver, "Error.post.add.tittle",
+                PO_Properties.getSPANISH() );
+
+        String checkText = PO_HomeView.getP().getString("Error.post.add.tittle",
+                PO_Properties.getSPANISH());
+        Assertions.assertEquals(checkText , result.get(0).getText());
+    }
+
+    @Test
+    @Order(1)
+    void PR26(){
+        PO_LoginView.logIn(driver, "user01@email.com", "user01");
+        driver.navigate().to(URL+ "/post/list");
+
+        PO_PrivateView.contarFilas(driver, 5);
     }
 
 }
