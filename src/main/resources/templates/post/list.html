@@ -15,6 +15,8 @@
             <p class="card-text" th:text="${post.text}"></p>
             <img class="img-fluid" th:if="${post.hasImage()}" th:src="${post.getImagePath()}"/>
             <p class="card-text" th:text="${post.date}"></p>
+            <p class="numberOfLikes" th:text="${'Recomendaciones: ' + post.getLikes()}"></p>
+            <a class="like" th:text="#{post.list.like}" th:if="${post.user.email != #authentication.getName() && !post.recommendedByUser(#authentication.getName())}" th:href="${'/post/like/' + post.id}"/></a>
         </div>
     </div>
 </div>

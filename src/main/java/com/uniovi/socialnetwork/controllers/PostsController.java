@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.Principal;
@@ -92,5 +93,19 @@ public class PostsController {
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
         }
         return "redirect:/post/list";
+    }
+
+    @RequestMapping(value="/post/like/{id}")
+    public String likePost(@PathVariable Long id, Principal principal){
+        Post post = postsService.getPost(id);
+        if (!post.getUser().getEmail().equals(principal.getName()) && post.getUser().isFriend(principal.getName())
+                && !post.recommendedByUser(principal.getName())){
+            post.addLike();
+            User user = usersService.getUserByEmail(principal.getName());
+            post.addRecommended(user);
+            postsService.addPost(post);
+        }
+
+        return "redirect:/post/list/" + post.getUser().getEmail();
     }
 }
