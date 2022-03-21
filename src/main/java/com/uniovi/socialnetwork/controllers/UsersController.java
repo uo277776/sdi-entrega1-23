@@ -79,19 +79,6 @@ public class UsersController {
         return "/user/friends";
     }
 
-    @RequestMapping(value="/user/add")
-    public String getUser(Model model){
-        model.addAttribute("rolesList", rolesService.getRoles());
-        //model.addAttribute("usersList", usersService.getUsers());
-        return "user/add";
-    }
-
-    @RequestMapping(value="/user/add", method= RequestMethod.POST)
-    public String setUser(@ModelAttribute User user){
-        usersService.addUser(user);
-        return "redirect:/user/list";
-    }
-
     @RequestMapping(value="/user/delete", method= RequestMethod.POST)
     public String deleteUsers(Model model, @RequestParam(value="user",required = false) String[] users){
         for(String id:users){
@@ -100,18 +87,6 @@ public class UsersController {
                 usersService.deleteUser(user.getId());
         }
         model.addAttribute("usersList",usersService.getUsers());
-        return "redirect:/user/list";
-    }
-
-    @RequestMapping("/user/details/{id}")
-    public String getDetail(Model model, @PathVariable Long id){
-        model.addAttribute("user", usersService.getUser(id));
-        return "user/details";
-    }
-
-    @RequestMapping("/user/delete/{id}")
-    public String delete(@PathVariable Long id){
-        usersService.deleteUser(id);
         return "redirect:/user/list";
     }
 
