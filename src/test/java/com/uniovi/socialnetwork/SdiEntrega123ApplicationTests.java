@@ -1,12 +1,15 @@
 package com.uniovi.socialnetwork;
 
 import com.uniovi.socialnetwork.pageobjects.*;
+import com.uniovi.socialnetwork.services.InsertSampleDataService;
+import com.uniovi.socialnetwork.services.UsersService;
 import com.uniovi.socialnetwork.util.SeleniumUtils;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -16,8 +19,10 @@ import java.util.List;
 class SdiEntrega123ApplicationTests {
 
 
-    static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-    static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
+    //static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+    //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
+    static String PathFirefox = "C:\\Users\\buhos\\AppData\\Local\\Mozilla Firefox\\firefox.exe";
+    static String Geckodriver = "C:\\Users\\buhos\\Documents\\Universidad\\Cuarto\\Segundo Cuatri\\SDI\\Utilidad\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Dev\\geckodriver-v0.30.0-win64.exe";
 
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
@@ -152,12 +157,8 @@ class SdiEntrega123ApplicationTests {
     void PR11(){
         PO_LoginView.logIn(driver,"admin@email.com","admin");
 
-        //Entramos en la lista de usuarios
-        List<WebElement> elements = PO_View.checkElementBy(driver,"id","users-menu");
-        elements.get(0).click();
-
         List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
-        Assertions.assertEquals(6,list.size());
+        Assertions.assertEquals(15,list.size());
         PO_LoginView.logOut(driver);
     }
 
@@ -165,13 +166,13 @@ class SdiEntrega123ApplicationTests {
     @Order(12)
     void PR12(){
         PO_LoginView.logIn(driver,"admin@email.com","admin");
-        driver.navigate().to(URL + "/user/list");
+
         //Clickamos en el checkbox del usuario 1 y al boton eliminar
-        PO_PrivateView.clickById(driver,"1");
+        PO_PrivateView.clickById(driver,"user01@email.com");
         PO_PrivateView.clickById(driver, "btnEliminar");
 
         List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
-        Assertions.assertEquals(15,list.size());
+        Assertions.assertEquals(14,list.size());
 
         SeleniumUtils.textIsNotPresentOnPage(driver,"User01");
 
@@ -184,35 +185,54 @@ class SdiEntrega123ApplicationTests {
         PO_LoginView.logIn(driver,"admin@email.com","admin");
 
 
-        PO_PrivateView.clickById(driver,"testName");
+        PO_PrivateView.clickById(driver,"user15@email.com");
         PO_PrivateView.clickById(driver,"btnEliminar");
 
         List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
         Assertions.assertEquals(14,list.size());
 
-        SeleniumUtils.textIsNotPresentOnPage(driver,"testName");
+        SeleniumUtils.textIsNotPresentOnPage(driver,"User15");
 
         PO_LoginView.logOut(driver);
     }
 
+    @Test
+    @Order(14)
+    void PR14(){
+        PO_LoginView.logIn(driver,"admin@email.com","admin");
+
+        PO_PrivateView.clickById(driver,"7");
+        PO_PrivateView.clickById(driver,"10");
+        PO_PrivateView.clickById(driver,"12");
+
+        PO_PrivateView.clickById(driver,"btnEliminar");
+
+        List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
+        Assertions.assertEquals(12,list.size());
+
+        SeleniumUtils.textIsNotPresentOnPage(driver,"User07");
+        SeleniumUtils.textIsNotPresentOnPage(driver,"User10");
+        SeleniumUtils.textIsNotPresentOnPage(driver,"User12");
+
+        PO_LoginView.logOut(driver);
+    }
 
     @Test
     @Order(15)
     void PR15(){
         PO_LoginView.logIn(driver,"user02@email.com","user02");
-
         for(int i = 0;i<2;i++){
             List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
             Assertions.assertEquals(5,list.size());
             SeleniumUtils.textIsNotPresentOnPage(driver,"user02");
             PO_PrivateView.clickById(driver,"siguiente");
         }
-        List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
-        Assertions.assertEquals(3,list.size());
-        SeleniumUtils.textIsNotPresentOnPage(driver,"User02");
 
         List<WebElement> list = SeleniumUtils.waitLoadElementsBy(driver,"class","userRow", PO_View.getTimeout());
-        Assertions.assertEquals(5,list.size());
+        Assertions.assertEquals(4,list.size());
+        SeleniumUtils.textIsNotPresentOnPage(driver,"User02");
+
+
         PO_LoginView.logOut(driver);
     }
 
@@ -221,7 +241,7 @@ class SdiEntrega123ApplicationTests {
     void PR19(){
         //We log in as user01 and send an invitation to user05
         PO_LoginView.logIn(driver, "user01@email.com", "user01");
-        driver.navigate().to(URL + "/user/list");
+        //driver.navigate().to(URL + "/user/list");
         PO_PrivateView.clickById(driver, "send_user05@email.com");
         PO_LoginView.logOut(driver);
 
@@ -229,7 +249,7 @@ class SdiEntrega123ApplicationTests {
         PO_LoginView.logIn(driver, "user05@email.com", "user05");
         driver.navigate().to(URL + "/invitation/list");
 
-        List<WebElement> element = driver.findElements(By.id("invitation_User02")); //We check if we have an invitation from User01.
+        List<WebElement> element = driver.findElements(By.id("invitation_User01")); //We check if we have an invitation from User01.
         Assertions.assertEquals(1, element.size());
         PO_LoginView.logOut(driver);
     }
@@ -260,6 +280,22 @@ class SdiEntrega123ApplicationTests {
         List<WebElement> element = driver.findElements(By.cssSelector("#invitationList tr"));
         Assertions.assertEquals(4, element.size()); //3 invitation rows + the header
         PO_LoginView.logOut(driver);
+    }
+
+    @Test
+    @Order(22)
+    void PR22(){
+        PO_LoginView.logIn(driver, "user01@email.com", "user01");
+        driver.navigate().to(URL + "/invitation/list");
+
+        PO_PrivateView.clickById(driver,"invitationAccept_User05");
+
+        //We check that there are 3 invitations
+        List<WebElement> element = driver.findElements(By.cssSelector("#invitationList tr"));
+        Assertions.assertEquals(3, element.size()); //3 invitation rows + the header
+
+        SeleniumUtils.textIsNotPresentOnPage(driver,"User05");
+
     }
 
     @Test
@@ -302,24 +338,7 @@ class SdiEntrega123ApplicationTests {
         List<WebElement> list = driver.findElements(By.name("post"));
         Assertions.assertEquals(5, list.size());
     }
-    @Test
-    @Order(22)
-    void PR22(){
-        PO_LoginView.logIn(driver, "user05@email.com", "user05");
-        driver.navigate().to(URL + "/invitation/list");
 
-        PO_PrivateView.clickById(driver,"invitationAccept_User10");
-
-        //We check that there are 3 invitations
-        List<WebElement> element = driver.findElements(By.cssSelector("#invitationList tr"));
-        Assertions.assertEquals(3, element.size()); //3 invitation rows + the header
-
-        SeleniumUtils.textIsNotPresentOnPage(driver,"User10");
-
-
-
-
-    }
 
 
 
@@ -360,8 +379,9 @@ class SdiEntrega123ApplicationTests {
 
     @Test
     @Order(31)
-    void PR31(){
+    void PR31() {
         //Comprobamos que nos redirige a la vista de log in
+    }
 
     @Test
     @Order(44)

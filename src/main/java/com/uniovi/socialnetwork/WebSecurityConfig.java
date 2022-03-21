@@ -7,8 +7,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
 @Configuration
@@ -17,6 +19,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private LoginAccessHandler sucessHandler;
+
+    @Autowired
+    private AuthenticationFailureHandler failureHandler;
+
+    @Autowired
+    private LogoutCustomHandler logoutCustomHandler;
 
     @Bean
     public SpringSecurityDialect securityDialect(){
@@ -44,21 +55,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/log/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/invitation/**").hasAuthority("ROLE_STANDARD")
                 .antMatchers("/user/friends").hasAuthority("ROLE_STANDARD")
+                .antMatchers("/user/add").anonymous()
                 .anyRequest().authenticated()
+                .and()
+                .exceptionHandling().accessDeniedPage("/error")
                 .and()
                 .formLogin()
                     .loginPage("/login")
                     .permitAll()
-                    .defaultSuccessUrl("/user/list")
+                    .successHandler(sucessHandler)
+                    .failureHandler(failureHandler)
+                    .usernameParameter("username")
                 .and()
                 .logout()
-                    .permitAll();
+                    .logoutSuccessHandler(logoutCustomHandler)
+                .permitAll();
     }
 
 
-    /*
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
-    }*/
+
 }

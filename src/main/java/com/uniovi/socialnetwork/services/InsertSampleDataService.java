@@ -1,5 +1,6 @@
 package com.uniovi.socialnetwork.services;
 
+import com.uniovi.socialnetwork.entities.Post;
 import com.uniovi.socialnetwork.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

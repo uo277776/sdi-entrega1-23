@@ -7,7 +7,7 @@
 <nav th:replace="fragments/nav"/>
 <div class="container">
     <h2 th:text="#{user.list.title}">Usuarios</h2>
-    <form class="form-inline" action="/user/list">
+    <form class="form-inline" action="/user/list" sec:authorize="hasRole('STANDARD')">
         <div class="form-group">
             <input name="searchText" type="text" class="form-control" size="50"
                    placeholder="Buscar por descripción o nombre del alumno">
@@ -22,9 +22,9 @@
                 <thead>
                 <tr>
                     <th scope="col"></th>
+                    <th scope="col" th:text="#{user.list.email}">Email</th>
                     <th scope="col" th:text="#{user.list.name}">Nombre</th>
-                    <th scope="col" th:text="#{user.list.email}">DNI</th>
-                    <th scope="col"></th>
+                    <th scope="col" th:test="#{user.list.lastName}">Apellido</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
@@ -32,18 +32,24 @@
                 </thead>
                 <tbody>
                 <tr th:each="user : ${usersList}" class="userRow">
-                    <th scope="col"></th>
-                    <td scope="row" th:text="${user.name}">Nombre del alumno</td>
-                    <td scope="row" th:text="${user.email}">71888888X</td>
-                    <td scope="row"><a sec:authorize="hasRole('STANDARD')" th:id="${'sendInvitation_' + user.id}" th:if="${!user.isAnyRelation(#authentication.getName())}" th:href="${'/invitation/send/' + user.id}">Agregar amigo</a></td>
+                    <td><input type="checkbox" class="checkbox" th:id="${user.email}" name="user" th:value="${user.id}" sec:authorize="hasRole('ADMIN')"/></td>
+                    <td scope="row" th:text="${user.name}"></td>
+                    <td scope="row" th:text="${user.email}"></td>
+                    <td scope="row" th:text="${user.lastName}"></td>
+                    <td scope="row"><a sec:authorize="hasRole('STANDARD')" th:id="${'send_'+user.getEmail()}" th:if="${!user.isAnyRelation(#authentication.getName())}" th:href="${'/invitation/send/' + user.id}">Agregar amigo</a></td>
                     <th scope="col"></th>
                     <th scope="col"></th>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <footer th:replace="fragments/pagination"/>
+        <div class="form-group" sec:authorize="hasRole('ADMIN')">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="btnEliminar" type="submit" class="btn btn-primary" th:text="#{user.list.delete}">Eliminar</button>
+            </div>
+        </div>
     </form>
+    <footer sec:authorize="hasRole('STANDARD')" th:replace="fragments/pagination"/>
 </div>
 <footer th:replace="fragments/footer"/>
 </body>

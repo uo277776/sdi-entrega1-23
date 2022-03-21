@@ -10,6 +10,6 @@ public interface LogsRepository extends CrudRepository<Log,Long> {
 
     List<Log> findByType(String type);
 
-    @Query("SELECT l FROM Log l ORDER BY l.fecha DESC")
+    @Query("SELECT l FROM Log l ORDER BY l.date DESC")
     List<Log> findAll();
 }

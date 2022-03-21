@@ -1,32 +1,23 @@
 package com.uniovi.socialnetwork.controllers;
 
-import com.uniovi.socialnetwork.entities.Invitation;
 import com.uniovi.socialnetwork.entities.Post;
 import com.uniovi.socialnetwork.entities.User;
 import com.uniovi.socialnetwork.services.*;
 import com.uniovi.socialnetwork.validators.SignUpFormValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.security.Principal;
-import java.util.*;
 
 @Controller
 public class UsersController {
 
-    private Logger log = LoggerFactory.getLogger(LoggerFactory.class);
 
     @Autowired
     private UsersService usersService;
@@ -43,18 +34,15 @@ public class UsersController {
     @Autowired
     private RolesService rolesService;
 
-    @Autowired
-    private LoggerService loggerService;
 
     @RequestMapping("/user/list")
     public String getList(Model model, Principal principal, Pageable pageable, @RequestParam(value= "", required = false)String searchText){
-        //loggerService.addLog("PET","HOLA");
         String email = principal.getName();
         User user = usersService.getUserByEmail(email);
 
         if(user.getRole().equals("ROLE_ADMIN")){
             model.addAttribute("usersList", usersService.getUsers());
-            return "admin/list";
+
         }else {
             Page<User> users;
             if(searchText != null && !searchText.isBlank())
@@ -64,9 +52,8 @@ public class UsersController {
 
             model.addAttribute("usersList",users.getContent());
             model.addAttribute("page",users);
-            return "user/list";
         }
-
+        return "user/list";
     }
 
     @RequestMapping("/user/list/update")
@@ -75,12 +62,10 @@ public class UsersController {
         User user = usersService.getUserByEmail(email);
         if(user.getRole().equals("ROLE_ADMIN")){
             model.addAttribute("usersList", usersService.getUsers());
-            return "admin/list::tableUsers";
         }else {
             model.addAttribute("usersList", usersService.getStandardUsers(pageable,user));
-            return "user/list::tableUsers";
         }
-
+        return "user/list::tableUsers";
     }
 
     @RequestMapping("/user/friends")
@@ -108,13 +93,11 @@ public class UsersController {
     }
 
     @RequestMapping(value="/user/delete", method= RequestMethod.POST)
-    public String deleteUsers(Model model, @RequestParam(value="user",required = false) String users[]){
+    public String deleteUsers(Model model, @RequestParam(value="user",required = false) String[] users){
         for(String id:users){
             User user = usersService.getUser(Long.valueOf(id));
-            for(Post post: user.getPosts()){
-                postsService.deletePost(post.getId());
-            }
-            usersService.deleteUser(user.getId());
+            if(user.getRole().equals("ROLE_STANDARD"))
+                usersService.deleteUser(user.getId());
         }
         model.addAttribute("usersList",usersService.getUsers());
         return "redirect:/user/list";
@@ -159,15 +142,4 @@ public class UsersController {
         return "login";
     }
 
-    /*
-    @RequestMapping(value={"/home"}, method= RequestMethod.GET)
-    public String home(Model model){
-        log.debug("Accediendo a home");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        User activeUser = usersService.getUserByEmail(email);
-        //model.addAttribute("markList", activeUser.getMarks());
-        return "home";
-    }
-    */
 }

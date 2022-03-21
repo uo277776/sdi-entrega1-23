@@ -15,13 +15,13 @@ public class Log {
 
     private String type;
 
-    private Timestamp fecha;
+    private Timestamp date;
 
     private String message;
 
     public Log(String type,String message){
         this.type = type;
-        fecha= Timestamp.valueOf(LocalDateTime.now());
+        date= Timestamp.valueOf(LocalDateTime.now());
         this.message = message;
     }
 
@@ -46,11 +46,11 @@ public class Log {
     }
 
     public Timestamp getFecha() {
-        return fecha;
+        return date;
     }
 
     public void setFecha(Timestamp fecha) {
-        this.fecha = fecha;
+        this.date = fecha;
     }
 
     public String getMessage() {
