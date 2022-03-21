@@ -20,7 +20,7 @@
       </thead>
       <tbody>
       <tr th:each="user : ${friendsList}">
-        <td th:text="${user.name}"  th:href="${'/post/list/' + user.getEmail()}">Nombre del alumno</td>
+        <td id="name"> <a th:href="${'/post/list/' + user.getEmail()}" th:text="${user.name}" Nombre del usuario></a></td>
         <td th:text="${user.lastName}">71888888X</td>
         <td th:text="${user.email}">71888888X</td>
         <th scope="col"></th>

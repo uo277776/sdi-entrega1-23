@@ -20,7 +20,7 @@ class SdiEntrega123ApplicationTests {
 
 
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-    static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\alexf\\Desktop\\UNIVERSIDAD\\Tercer Curso\\Segundo Cuatri\\Sistemas Distribuidos e Internet\\Laboratorio\\Sesion 5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Dev\\geckodriver-v0.30.0-win64.exe";
 
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
@@ -263,6 +263,19 @@ class SdiEntrega123ApplicationTests {
 
         List<WebElement> list = driver.findElements(By.name("post"));
         Assertions.assertEquals(5, list.size());
+    }
+
+    @Test
+    @Order(1)
+    void PR27(){
+        PO_LoginView.logIn(driver, "user01@email.com", "user01");
+        driver.navigate().to(URL + "/user/friends");
+
+        PO_PrivateView.clickById(driver, "name");
+
+        List<WebElement> list = driver.findElements(By.name("post"));
+        Assertions.assertEquals(0, list.size());
+
     }
 
     @Test
